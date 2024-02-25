@@ -44,7 +44,8 @@ class Device:
         api_max = self.api_max_q
         modbus_min = self.modbus_min
         modbus_max = self.modbus_max
-        val_mb = int((val_api - api_min)*(modbus_max - modbus_min)/(api_max - api_min) + modbus_min)               
+        val_mb = int((val_api - api_min)*(modbus_max - modbus_min)/(api_max - api_min) + modbus_min)  
+        val_mb = np.clip(val_mb,modbus_min,modbus_max)             
         self.modbus_client.write_register(self.reg_number_q,val_mb)
 
     def get_v(self):
