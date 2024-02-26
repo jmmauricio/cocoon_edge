@@ -1,0 +1,9 @@
+[Unit]
+Description=My Custom Service
+
+[Service]
+Type=simple
+ExecStart= /usr/local/bin/cocoon_edge_script.sh
+
+[Install]
+WantedBy=multi-user.target

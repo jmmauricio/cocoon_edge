@@ -11,3 +11,43 @@
     - **ppc**: `sudo python3 control_modbus.py`
 
 After working stop each machine with: `sudo poweroff`
+
+
+cocoon_edge.service:
+
+[Unit]
+Description=My Custom Service
+
+[Service]
+Type=simple
+ExecStart= /usr/local/bin/cocoon_edge_script.sh
+
+[Install]
+WantedBy=multi-user.target
+
+sudo mv cocoon_edge.service /etc/systemd/system/
+sudo chmod 644 /etc/systemd/system/cocoon_edge.service
+sudo chmod +x /etc/systemd/system/cocoon_edge.service
+
+sudo mv cocoon_edge_script.sh /usr/local/bin/
+sudo chmod +x /usr/local/bin/cocoon_edge_script.sh
+
+Reload systemd:
+sudo systemctl daemon-reload
+
+
+Start the Service:
+sudo systemctl start cocoon_edge
+
+Enable the Service at Boot:
+sudo systemctl enable cocoon_edge
+
+
+sudo nano /usr/local/bin/cocoon_edge_script.sh
+
+sudo nano /etc/systemd/system/cocoon_edge.service
+
+
+#/bin/bash
+cd /
+python3 edge.py
