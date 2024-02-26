@@ -1,0 +1,15 @@
+Feb 26 12:32:09.569 HYPERVISOR: Release 0.2.17-x86/Windows (tag 2017072410)
+Feb 26 12:32:09.569 HYPERVISOR: Started on IP = localhost, TCP port = 61235.
+Feb 26 12:32:10.060 HYPERVISOR: exec_cmd: hypervisor version 
+Feb 26 12:32:10.060 HYPERVISOR: exec_cmd: hypervisor working_dir C:\Users\jmmau\workspace\cocoon\cocoon_edge\com_emu\project-files\dynamips 
+Feb 26 12:32:10.061 GENERAL: working_dir=C:\Users\jmmau\workspace\cocoon\cocoon_edge\com_emu\project-files\dynamips
+Feb 26 12:32:10.061 HYPERVISOR: exec_cmd: ethsw create Sw0102 
+Feb 26 12:32:12.088 HYPERVISOR: exec_cmd: nio create_udp udp-e50937cd-fffc-4773-af45-fb935ccf6125 10007 127.0.0.1 10006 
+Feb 26 12:32:12.097 HYPERVISOR: exec_cmd: ethsw add_nio Sw0102 udp-e50937cd-fffc-4773-af45-fb935ccf6125 
+Feb 26 12:32:12.101 HYPERVISOR: exec_cmd: ethsw set_access_port Sw0102 udp-e50937cd-fffc-4773-af45-fb935ccf6125 1 
+Feb 26 12:32:12.491 HYPERVISOR: exec_cmd: nio create_udp udp-10d14ee7-d466-4967-ba0b-8fc6e19f8c66 10013 127.0.0.1 10012 
+Feb 26 12:32:12.492 HYPERVISOR: exec_cmd: ethsw add_nio Sw0102 udp-10d14ee7-d466-4967-ba0b-8fc6e19f8c66 
+Feb 26 12:32:12.493 HYPERVISOR: exec_cmd: ethsw set_access_port Sw0102 udp-10d14ee7-d466-4967-ba0b-8fc6e19f8c66 1 
+Feb 26 12:32:12.790 HYPERVISOR: exec_cmd: nio create_udp udp-2a081761-6e6b-4285-b824-7659f47bf91c 10019 127.0.0.1 10018 
+Feb 26 12:32:12.791 HYPERVISOR: exec_cmd: ethsw add_nio Sw0102 udp-2a081761-6e6b-4285-b824-7659f47bf91c 
+Feb 26 12:32:12.804 HYPERVISOR: exec_cmd: ethsw set_access_port Sw0102 udp-2a081761-6e6b-4285-b824-7659f47bf91c 1 
