@@ -9,6 +9,7 @@ from threading import Thread
 import json
 import http.client
 import time
+from configure_nadapter import configure
 import numpy as np
 from modbus import modbus_client
 
@@ -18,7 +19,7 @@ class Edge:
 
     def __init__(self, name) -> None:
         self.name = name
-        with open('config_controller.json','r') as fobj:
+        with open('./emec_emu/pv_m_n/config_controller.json','r') as fobj:
             config_controller = json.loads(fobj.read())
 
         with open('config_devices.json','r') as fobj:

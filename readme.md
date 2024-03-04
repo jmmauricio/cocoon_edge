@@ -51,3 +51,15 @@ sudo nano /etc/systemd/system/cocoon_edge.service
 #/bin/bash
 cd /
 python3 edge.py
+
+
+
+- Create a nework adapter in GNS3 in preferences -> VMware -> Advance local settings
+- Configure the network adapter using the powershell as admin
+###
+    $InterfaceIndex = (Get-NetAdapter -Name "VMware Network Adapter VMnet2").InterfaceIndex
+    $IPAddress = "192.168.1.100"
+    $SubnetMask = "255.255.255.0"
+    $DefaultGateway = "192.168.1.1"
+    New-NetIPAddress -InterfaceIndex $InterfaceIndex -IPAddress $IPAddress -PrefixLength 24 -DefaultGateway $DefaultGateway
+    Set-NetIPAddress -InterfaceIndex $InterfaceIndex -PrefixLength 24 -PrefixOrigin Manual

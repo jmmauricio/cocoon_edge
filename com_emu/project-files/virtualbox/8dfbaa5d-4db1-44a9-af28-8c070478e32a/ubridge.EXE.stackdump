@@ -1,7 +1,0 @@
-Exception: STATUS_ACCESS_VIOLATION at eip=004012E0
-eax=00000430 ebx=80092E50 ecx=00000000 edx=00000000 esi=80092EB4 edi=FFC6FFE8
-ebp=FFC6CDC8 esp=FFC5CD90 program=C:\Program Files\GNS3\ubridge.EXE, pid 1295, thread ubridge
-cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
-Stack trace:
-Frame     Function  Args
-End of stack trace

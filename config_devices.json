@@ -1,0 +1,29 @@
+{
+    "api": {
+        "scheme": "http",
+        "host": "192.168.1.100",
+        "port": 8000
+    },
+    "devices": [
+                  {"id":"poi", "api_id":"POI", "modbus_ip":"192.168.1.100","modbus_port":5002,"api_config":"poi"},
+                  {"id":"inv1", "api_id":"LV0101", "modbus_ip":"192.168.1.100","modbus_port":510,"api_config":"inv"},
+                  {"id":"inv2", "api_id":"LV0102", "modbus_ip":"192.168.1.100","modbus_port":511,"api_config":"inv"},
+                  {"id":"inv3", "api_id":"LV0103", "modbus_ip":"192.168.1.100","modbus_port":512,"api_config":"inv"},
+                  {"id":"inv4", "api_id":"LV0104", "modbus_ip":"192.168.1.100","modbus_port":513,"api_config":"inv"}
+              ],
+    "api_configs":{
+          "poi":{"from_api":[{"api_prefix":"V","min":0.0,"max":2.0, "modbus_variable":"VoltageAVG"}],
+                "to_api":[
+                ]},
+          "inv":{"to_api":[
+                           {"api_prefix":"p_s_ppc","ini":2.0,"min": 0.0,"max":1.0, "modbus_variable":"SetActivePower"},
+                           {"api_prefix":"q_s_ppc","ini":0.0,"min":-1.0,"max":1.0, "modbus_variable":"SetReactivePower"}
+                    ],
+                "from_api":[
+                           {"api_prefix":"p_s","ini":2.0,"min": 0.0,"max":1.0, "modbus_variable":"ActivePower"},
+                           {"api_prefix":"q_s","ini":0.0,"min":-1.0,"max":1.0, "modbus_variable":"ReactivePower"}
+                ]}
+    }
+  }
+
+            

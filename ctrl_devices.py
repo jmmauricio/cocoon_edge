@@ -9,7 +9,7 @@ class Device:
     def __init__(self,name) -> None:
         
         # read configuration file 
-        with open('config_devices_ctrl.json','r') as fobj:
+        with open('config_devices.json','r') as fobj:
             self.config_devices = json.loads(fobj.read())
 
         # find current device in configuration

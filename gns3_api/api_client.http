@@ -1,26 +1,75 @@
-### GET measures. Devuelve todas las medidas del POI y de los inversores
-GET http://127.0.0.1:8000/measures
+
+GET http://localhost:3080/v2/version
 Content-Type: application/json
 
-### POST setpoints. Con esta petición cambiamos la potencia activa o reactiva de referencia. 
-POST http://10.0.0.10:8000/setpoints
+### Create project
+POST http://localhost:3080/v2/projects
 Content-Type: application/json
 
-{
-    "p_s_ref_BESS" : 0,
-    "ramp_bess": 25
-}
+{"name": "test_3"}
 
-# 0.9999845947001552
+### Create project
+GET http://localhost:3080/v2/projects/93d53192-dd55-44a9-b9bb-32c656a21706/load
+Content-Type: application/json
+
+{}
+
+## Get project data
+GET http://localhost:3080/v2/93d53192-dd55-44a9-b9bb-32c656a21706
+Content-Type: application/json
+
+
+### Create VPCS nodes
+POST http://localhost:3080/v2/projects/93d53192-dd55-44a9-b9bb-32c656a21706/nodes
+Content-Type: application/json
+
+{"name": "VPCS 1", "node_type": "vpcs", "compute_id": "local"}
+
+
+### Create VPCS nodes
+POST http://localhost:3080/v2/projects/93d53192-dd55-44a9-b9bb-32c656a21706/nodes
+Content-Type: application/json
+
+{"name": "VPCS 2", "node_type": "vpcs", "compute_id": "local"}
+
+
+### Link nodes
+POST http://localhost:3080/v2/projects/93d53192-dd55-44a9-b9bb-32c656a21706/links
+Content-Type: application/json
+
+{"nodes": [{"adapter_number": 0, "node_id": "f2b4514b-70ff-451a-8a43-62fdcd5589ed", "port_number": 0}, 
+           {"adapter_number": 0, "node_id": "79a180ab-4393-43b4-8d51-43b35b5872bf", "port_number": 0}]}
+
+
+
+### Start VPCS nodes
+POST http://localhost:3080/v2/projects/93d53192-dd55-44a9-b9bb-32c656a21706/nodes/f2b4514b-70ff-451a-8a43-62fdcd5589ed/start
+Content-Type: application/json
+
+{}
+
+
+### Start VPCS nodes
+POST http://localhost:3080/v2/projects/93d53192-dd55-44a9-b9bb-32c656a21706/nodes/79a180ab-4393-43b4-8d51-43b35b5872bf/start
+Content-Type: application/json
+
+{}
+
+
+
 ### POST setpoints. Con esta petición cambiamos la potencia activa o reactiva de referencia. 
 POST http://localhost:8000/setpoints
 Content-Type: application/json
 
 {
-    "q_s_ppc_LV0101" : 0.0,
-    "q_s_ppc_LV0102" : 0.0,
-    "q_s_ppc_LV0103" : 0.0,
-    "q_s_ppc_LV0104" : 0.5,
+    "p_s_ppc_LV0101" : 0.5,
+    "p_s_ppc_LV0102" : 0.5,
+    "p_s_ppc_LV0103" : 0.5,
+    "p_s_ppc_LV0104" : 0.5,
+    "q_s_ppc_LV0101" : 2.0,
+    "q_s_ppc_LV0102" : 2.0,
+    "q_s_ppc_LV0103" : 2.0,
+    "q_s_ppc_LV0104" : 2.0,
     "q_s_ref_BESS" : 0
 }
 

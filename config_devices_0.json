@@ -1,0 +1,60 @@
+{
+    "api": {
+        "scheme": "http",
+        "host": "192.168.1.100",
+        "port": 8000
+    },
+    "devices": [
+                  {"id":"POI", "modbus_ip":"192.168.1.100","modbus_port":5002,
+                   "v_name": "V_POI",
+                    "from_api":[
+                               {"api":{"name":"V_POI","min":0.0,"max":2.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":1}}
+                               ]
+                  },
+                  {"id":"LV0101", "modbus_ip":"192.168.1.100","modbus_port":510,
+                   "q_ref_name":"q_s_ppc_LV0101","S_mva":1,
+                    "to_api":[
+                             {"api":{"name":"p_s_ppc_LV0101","ini":2.0,"min": 0.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":3}},
+                             {"api":{"name":"q_s_ppc_LV0101","ini":0.0,"min":-1.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":4}}
+                             ],
+                    "from_api":[
+                             {"api":{"name":"p_s_LV0101","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":1}},
+                             {"api":{"name":"q_s_LV0101","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":2}}
+                    ]
+                  },
+                  {"id":"LV0102", "modbus_ip":"192.168.1.100","modbus_port":511,
+                   "q_ref_name":"q_s_ppc_LV0102","S_mva":1,
+                    "to_api":[
+                             {"api":{"name":"p_s_ppc_LV0102","ini":2.0,"min": 0.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":3}},
+                             {"api":{"name":"q_s_ppc_LV0102","ini":0.0,"min":-1.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":4}}
+                             ],
+                    "from_api":[
+                             {"api":{"name":"p_s_LV0102","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":1}},
+                             {"api":{"name":"q_s_LV0102","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":2}}
+                    ]
+                  },
+                  {"id":"LV0103", "modbus_ip":"192.168.1.100","modbus_port":512,
+                   "q_ref_name":"q_s_ppc_LV0103","S_mva":1,
+                    "to_api":[
+                             {"api":{"name":"p_s_ppc_LV0103","ini":2.0,"min": 0.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":3}},
+                             {"api":{"name":"q_s_ppc_LV0103","ini":0.0,"min":-1.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":4}}
+                             ],
+                    "from_api":[
+                             {"api":{"name":"p_s_LV0103","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":1}},
+                             {"api":{"name":"q_s_LV0103","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":2}}
+                    ]
+                  },
+                  {"id":"LV0104", "modbus_ip":"192.168.1.100","modbus_port":513,
+                   "q_ref_name":"q_s_ppc_LV0104","S_mva":1,
+                    "to_api":[
+                             {"api":{"name":"p_s_ppc_LV0104","ini":2.0,"min": 0.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":3}},
+                             {"api":{"name":"q_s_ppc_LV0104","ini":0.0,"min":-1.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":4}}
+                             ],
+                    "from_api":[
+                             {"api":{"name":"p_s_LV0103","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":1}},
+                             {"api":{"name":"q_s_LV0103","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":2}}
+                    ]
+                  }
+                  ]             
+}
+            
