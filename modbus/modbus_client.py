@@ -4,6 +4,12 @@ from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.payload import BinaryPayloadBuilder
 import time
 
+try: 
+    dummy = Endian.Little
+except:
+    Endian.Little = Endian.LITTLE
+    Endian.Big = Endian.BIG
+
 
 class Modbus_client:
 
@@ -39,7 +45,7 @@ class Modbus_client:
     def write_int32(self,value, reg_number, format = 'CDAB'):
         # write INT32
         if format == 'CDAB':
-            builder = BinaryPayloadBuilder(byteorder=Endian.BIG, wordorder=Endian.LITTLE)
+            builder = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
 
         builder.add_32bit_int(value)
         builder.to_registers()
@@ -51,7 +57,7 @@ class Modbus_client:
         # read INT32
         modbus_response = self.modbus_client.read_holding_registers(address = reg_number, count = 2)
         if format == 'CDAB':
-            decoder = BinaryPayloadDecoder.fromRegisters(modbus_response.registers, byteorder=Endian.BIG, wordorder=Endian.LITTLE)
+            decoder = BinaryPayloadDecoder.fromRegisters(modbus_response.registers, byteorder=Endian.Big, wordorder=Endian.Little)
         value = decoder.decode_32bit_uint()
         return value
 
@@ -60,7 +66,7 @@ class Modbus_client:
         print('write',value)
 
         if format == 'CDAB':
-            builder = BinaryPayloadBuilder(byteorder=Endian.BIG, wordorder=Endian.LITTLE)
+            builder = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
 
         builder.add_32bit_uint(value)
         builder.to_registers()
@@ -74,14 +80,14 @@ class Modbus_client:
 
         modbus_response = self.modbus_client.read_holding_registers(address = reg_number, count = 2)
         if format == 'CDAB':
-            decoder = BinaryPayloadDecoder.fromRegisters(modbus_response.registers, byteorder=Endian.BIG, wordorder=Endian.LITTLE)
+            decoder = BinaryPayloadDecoder.fromRegisters(modbus_response.registers, byteorder=Endian.Big, wordorder=Endian.Little)
         value = decoder.decode_32bit_uint()
         return value
     
     def write_int16(self,value, reg_number, format = 'AB'):
         # write INT32
         if format == 'AB':
-            builder = BinaryPayloadBuilder(byteorder=Endian.BIG, wordorder=Endian.LITTLE)
+            builder = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
 
         builder.add_16bit_int(value)
         builder.to_registers()
@@ -94,14 +100,14 @@ class Modbus_client:
         modbus_response = self.modbus_client.read_holding_registers(address = reg_number, count = 1)
         # print()
         # if format == 'AB':
-        #     decoder = BinaryPayloadDecoder.fromRegisters(modbus_response.registers, byteorder=Endian.BIG)
+        #     decoder = BinaryPayloadDecoder.fromRegisters(modbus_response.registers, byteorder=Endian.Big)
         value = modbus_response.registers[0]
         return value
 
     def write_uint16(self,value, reg_number, format = 'AB'):
         # write INT32
         if format == 'AB':
-            builder = BinaryPayloadBuilder(byteorder=Endian.BIG, wordorder=Endian.LITTLE)
+            builder = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
 
         builder.add_16bit_uint(value)
         builder.to_registers()
@@ -113,7 +119,7 @@ class Modbus_client:
         # read INT32
         modbus_response = self.modbus_client.read_holding_registers(address = reg_number, count = 2)
         if format == 'AB':
-            decoder = BinaryPayloadDecoder.fromRegisters(modbus_response.registers, byteorder=Endian.BIG, wordorder=Endian.LITTLE)
+            decoder = BinaryPayloadDecoder.fromRegisters(modbus_response.registers, byteorder=Endian.Big, wordorder=Endian.Little)
         value = decoder.decode_16bit_uint()
         return value
 

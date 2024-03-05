@@ -71,12 +71,14 @@ class Edge:
 
     
             self.modbus_client = modbus_client.Modbus_client(self.modbus_ip,self.modbus_port)
-            self.modbus_client.start()
 
             self.api_client = http.client.HTTPConnection(self.edge_config['api_ip'], self.edge_config['api_port'])
             self.api_headers = {'Content-type': 'application/json'}
 
     def update(self):
+
+                    
+        self.modbus_client.start()
 
         edge_config = self.edge_config
         
@@ -156,7 +158,7 @@ def modbus_server(modbus_server_ip,modbus_server_port):
     print(f'Server start at: {address}')
     server = StartTcpServer(context=context,address=address)
 
-    time.sleep(2)
+    
 
 def edge_run(name):
 
@@ -165,6 +167,8 @@ def edge_run(name):
 
     p_modbus_server = Process(target=modbus_server, args=(e.modbus_ip,e.modbus_port,))
     p_modbus_server.start()
+    
+    time.sleep(2)
     
     e.update()
 
