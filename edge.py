@@ -16,12 +16,13 @@ from modbus import modbus_client
 
 class Edge:
 
-    def __init__(self, name) -> None:
+    def __init__(self, name, cfg_dev, cfg_ctrl) -> None:
         self.name = name
-        with open('config_controller.json','r') as fobj:
+         
+        with open(cfg_ctrl,'r') as fobj:
             config_controller = json.loads(fobj.read())
 
-        with open('config_devices.json','r') as fobj:
+        with open(cfg_dev,'r') as fobj:
             config_devices = json.loads(fobj.read())
 
         self.edge_config = {}
@@ -85,7 +86,6 @@ class Edge:
         while True:
             # from modbus to api
             to_api_dict = {}
-            print(edge_config['api_config']['to_api'])
             for item in edge_config['api_config']['to_api']:
                 modbus_variable = edge_config['modbus_config'][item['modbus_variable']]
                 modbus_variable_id = item['modbus_variable']  
@@ -93,7 +93,6 @@ class Edge:
                 if modbus_variable_id in  ['SetActivePower','SetReactivePower']:
                     if 'inverter' in edge_config:
                         K_api2modbus = edge_config['inverter']['sbase']    
-                print(f"modbus_variable_id = {modbus_variable_id}, K_api2modbus = {K_api2modbus}")           
 
                 api_prefix = item['api_prefix']
                 api_var_name = f"{api_prefix}_{edge_config['api_id']}"
@@ -105,12 +104,13 @@ class Edge:
                 # to api
                 api_value = mb_value/K_api2modbus/modbus_variable['scale']
                 to_api_dict.update({api_var_name:api_value})
+                print(f"{modbus_variable_id}@{self.modbus_ip}:{self.modbus_port}/{modbus_variable['address']} -> {api_var_name} = {api_value}")           
+
                     
             to_api_json = json.dumps(to_api_dict)  # Convert dictionary to JSON format
             self.api_client.request('POST', '/setpoints', to_api_json, self.api_headers)     # Send POST request
             response = self.api_client.getresponse() # Get response from server
             response_string = response.read().decode()     
-            print(response_string)     
 
 
             # from api to modbus
@@ -126,11 +126,9 @@ class Edge:
                 if modbus_variable_id in  ['ActivePower','ReactivePower']:
                     if 'inverter' in edge_config:
                         K_api2modbus = edge_config['inverter']['sbase']    
-                print(f"modbus_variable_id = {modbus_variable_id}, K_api2modbus = {K_api2modbus}")           
 
                 api_prefix = item['api_prefix']
                 api_var_name = f"{api_prefix}_{edge_config['api_id']}"
-                print(api_var_name,'->',modbus_variable)    
 
                 # from api 
                 value_api = from_api_measurements_dict[api_var_name]*K_api2modbus
@@ -139,6 +137,7 @@ class Edge:
                 value_mb = int(modbus_variable['scale']*value_api)
                 self.modbus_client.write(value_mb,modbus_variable['address'], modbus_variable['type'],format=modbus_variable['format'])
                 #print(f"{modbus_variable}@{modbus_ip}:{modbus_port},'->',api_var_name")
+                print(f"{api_var_name} = {api_value} -> {modbus_variable_id}@{self.modbus_ip}:{self.modbus_port}/{modbus_variable['address']} = {value_mb}")           
 
             time.sleep(1)
 
@@ -160,25 +159,39 @@ def modbus_server(modbus_server_ip,modbus_server_port):
 
     
 
-def edge_run(name):
+def edge_run(name, cfg_dev, cfg_ctrl):
 
-    e = Edge(name)
+    e = Edge(name, cfg_dev, cfg_ctrl)
     e.setup()
 
     p_modbus_server = Process(target=modbus_server, args=(e.modbus_ip,e.modbus_port,))
     p_modbus_server.start()
     
     time.sleep(2)
-    
+
     e.update()
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("id", help="id name of the device")
+    parser.add_argument("-cfg_dev", help="config_controller.json file")
+    parser.add_argument("-cfg_ctrl", help="config_devices.json file")
     args = parser.parse_args()
     name = args.id    
-    edge_run(name)
+    
+    if args.cfg_dev:
+        cfg_dev = args.cfg_dev
+    else: 
+        cfg_dev = "config_devices.json"
+
+    if args.cfg_ctrl:
+        cfg_ctrl = args.cfg_ctrl
+    else: 
+        cfg_ctrl = "config_controller.json"
+
+
+    edge_run(name, cfg_dev, cfg_ctrl)
 
 
 

@@ -63,7 +63,6 @@ class Modbus_client:
 
     def write_uint32(self,value, reg_number, format = 'CDAB'):
         # write INT32
-        print('write',value)
 
         if format == 'CDAB':
             builder = BinaryPayloadBuilder(byteorder=Endian.Big, wordorder=Endian.Little)
@@ -76,7 +75,6 @@ class Modbus_client:
 
     def read_uint32(self,reg_number, format = 'CDAB'):
         # read INT32
-        print('read uint32')
 
         modbus_response = self.modbus_client.read_holding_registers(address = reg_number, count = 2)
         if format == 'CDAB':
@@ -98,7 +96,6 @@ class Modbus_client:
     def read_int16(self,reg_number, format = 'AB'):
         # read INT16
         modbus_response = self.modbus_client.read_holding_registers(address = reg_number, count = 1)
-        # print()
         # if format == 'AB':
         #     decoder = BinaryPayloadDecoder.fromRegisters(modbus_response.registers, byteorder=Endian.Big)
         value = modbus_response.registers[0]
