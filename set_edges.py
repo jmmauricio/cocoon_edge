@@ -47,6 +47,7 @@ def set_ips(data,nic_ids):
             if vm['name'] == item['vm_name']:
                 ssh_ip = vm['ssh_ip']
                 ssh_port  = vm['ssh_port'] 
+                edge_name = item['name']
 
         adapter_number = item['adapter_number']
         adapter_name = nic_ids[adapter_number]
@@ -59,6 +60,19 @@ def set_ips(data,nic_ids):
         stdin, stdout, stderr = client.exec_command(f"sudo -S /usr/sbin/ifconfig {adapter_name} {item['modbus_ip']}/24")
         stdin.write('ingelectus\n')
         print(stdout.readlines())
+
+        stdin, stdout, stderr = client.exec_command(f"sudo -S rm -r cocoon_edge")
+        stdin.write('ingelectus\n')
+        stdin, stdout, stderr = client.exec_command(f"git clone https://github.com/jmmauricio/cocoon_edge.git")
+        print(stdout.readlines())
+
+        # stdin, stdout, stderr = client.exec_command(f"cd cocoon_edge")
+        # print(stdout.readlines())
+
+        stdin, stdout, stderr = client.exec_command(f"cd cocoon_edge && nohup sudo -S python3 edge.py {edge_name}")
+        stdin.write('ingelectus\n')        
+        print(stdout.readlines())
+
 
         client.close()
 
@@ -87,9 +101,9 @@ if __name__ == "__main__":
             {"name":"Sw0105","pos_x":-800,"pos_y":0}
         ],
         "end_nodes":[
-            {"name":"POI","modbus_ip":"10.0.0.2","modbus_port":502, "type":"vm", "vm_name":"POI","adapter_number":1,"pos_x": 110,"pos_y":-7},
-            {"name":"PPC","modbus_ip":"10.0.0.3","modbus_port":502, "type":"vm", "vm_name":"ppc","adapter_number":1,"pos_x": -50,"pos_y":-100},
-            {"name":"LV0101","modbus_ip":"10.0.0.10","modbus_port":502, "type":"vm", "vm_name":"CIG01","adapter_number":1,"pos_x": -200,"pos_y":-150},
+            # {"name":"POI","modbus_ip":"10.0.0.2","modbus_port":502, "type":"vm", "vm_name":"POI","adapter_number":1,"pos_x": 110,"pos_y":-7},
+            # {"name":"PPC","modbus_ip":"10.0.0.3","modbus_port":502, "type":"vm", "vm_name":"ppc","adapter_number":1,"pos_x": -50,"pos_y":-100},
+             {"name":"LV0101","modbus_ip":"10.0.0.10","modbus_port":502, "type":"vm", "vm_name":"CIG01","adapter_number":1,"pos_x": -200,"pos_y":-150},
             {"name":"LV0102","modbus_ip":"10.0.0.11","modbus_port":502, "type":"vm", "vm_name":"CIG02","adapter_number":1,"pos_x": -350,"pos_y":-150},
             {"name":"LV0103","modbus_ip":"10.0.0.12","modbus_port":502, "type":"vm", "vm_name":"CIG03","adapter_number":1,"pos_x": -500,"pos_y":-150},
             {"name":"LV0104","modbus_ip":"10.0.0.13","modbus_port":502, "type":"vm", "vm_name":"CIG04","adapter_number":1,"pos_x": -650,"pos_y":-150},
@@ -112,13 +126,13 @@ if __name__ == "__main__":
             {"node_j":"Probe", "adapter_number_j":0,"port_number_j":0,"node_k":"SwPOI","adapter_number_k":0,"port_number_k":3}
         ],
         "vms":[
-            {"name":"ppc",   "ssh_ip":"127.0.0.3", "ssh_port":2003},
-            {"name":"POI",   "ssh_ip":"127.0.0.2", "ssh_port":2002},
+ #           {"name":"ppc",   "ssh_ip":"127.0.0.3", "ssh_port":2003},
+            # {"name":"POI",   "ssh_ip":"127.0.0.2", "ssh_port":2002},
             {"name":"CIG01", "ssh_ip":"127.0.0.10", "ssh_port":2010},
-            {"name":"CIG02", "ssh_ip":"127.0.0.11", "ssh_port":2011},
-            {"name":"CIG03", "ssh_ip":"127.0.0.12", "ssh_port":2012},
-            {"name":"CIG04", "ssh_ip":"127.0.0.13", "ssh_port":2013},
-            {"name":"CIG05", "ssh_ip":"127.0.0.14", "ssh_port":2014}        
+            # {"name":"CIG02", "ssh_ip":"127.0.0.11", "ssh_port":2011},
+            # {"name":"CIG03", "ssh_ip":"127.0.0.12", "ssh_port":2012},
+            # {"name":"CIG04", "ssh_ip":"127.0.0.13", "ssh_port":2013},
+            # {"name":"CIG05", "ssh_ip":"127.0.0.14", "ssh_port":2014}        
         ]
     }
 

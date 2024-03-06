@@ -1,7 +1,14 @@
 
 * run `\emec_emu\pv_m_n> python emulator.py` at the host PC
-* open in GNS3 the file `\com_emu\com_emu.gns3` 
+* open in GNS3
+* run set_ssh_forwardings(data) at set_edges.py
 * start all PCs at GNS3
+* run set_ips(data,nic_ids) at set_edges.py
+* copy edge.py and configuration files to each vm
+    * scp edge.py ingelectus@127.0.0.10/home/ingelectus
+
+
+
 * run the following scripts in the workspace/cocoon_edge folder
     - **poi**: `sudo python3 edge.py POI`
     - **lv0101**: `sudo python3 edge.py LV0101 -autoip enp0s8 -apiip 172.25.192.1`

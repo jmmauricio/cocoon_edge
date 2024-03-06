@@ -124,7 +124,7 @@ class Gns3:
 if __name__ == "__main__":
 
     api = Gns3()
-    api.create_project('Test72')
+    api.create_project('Test74')
     api.get_templates()
 
 
