@@ -1,0 +1,203 @@
+{
+    "poi": {
+        "server": "modbus",
+        "port": "2000",
+        "freq": 50,
+        "v": 132000,
+        "p_max": 2000000,
+        "q_max": 1000000,
+        "meas": [
+            {
+                "variable": "poi.p",
+                "address": "4x370",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            },
+            {
+                "variable": "poi.q",
+                "address": "4x374",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            },
+            {
+                "variable": "poi.v",
+                "address": "4x372",
+                "type": "uint16",
+                "format": "AB",
+                "scale": 100
+            },
+            {
+                "variable": "poi.f",
+                "address": "4x900",
+                "type": "uint16",
+                "format": "AB",
+                "scale": 1
+            }
+        ]
+    },
+    "bess": {
+        "server": "modbus",
+        "port": "2001",
+        "p_max": 1000000,
+        "q_max": 1000000,
+        "meas": [
+            {
+                "variable": "bess.p",
+                "address": "4x12",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            },
+            {
+                "variable": "bess.q",
+                "address": "4x14",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            },
+            {
+                "variable": "bess.soc",
+                "address": "4x6",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1e-06
+            }
+        ],
+        "setpoints": [
+            {
+                "variable": "bess.p",
+                "address": "4x2",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            },
+            {
+                "variable": "bess.q",
+                "address": "4x4",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            }
+        ]
+    },
+    "g1": {
+        "server": "modbus",
+        "port": "2002",
+        "p_max": 1000000,
+        "q_max": 500000,
+        "meas": [
+            {
+                "variable": "g1.p",
+                "address": "4x40525",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            },
+            {
+                "variable": "g1.q",
+                "address": "4x40544",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            },
+            {
+                "variable": "g1.v",
+                "address": "4x40546",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 0.001
+            },
+            {
+                "variable": "g1.lvrt",
+                "address": "4x40548",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            },
+            {
+                "variable": "g1.hvrt",
+                "address": "4x40550",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            }
+        ],
+        "setpoints": [
+            {
+                "variable": "g1.p",
+                "address": "4x40424",
+                "type": "uint32",
+                "format": "CDAB",
+                "scale": 1
+            },
+            {
+                "variable": "g1.q",
+                "address": "4x40426",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            }
+        ]
+    },
+    "g2": {
+        "server": "modbus",
+        "port": "2003",
+        "p_max": 1000000,
+        "q_max": 500000,
+        "meas": [
+            {
+                "variable": "g2.p",
+                "address": "4x40525",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            },
+            {
+                "variable": "g2.q",
+                "address": "4x40544",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            },
+            {
+                "variable": "g2.v",
+                "address": "4x40546",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 0.001
+            },
+            {
+                "variable": "g2.lvrt",
+                "address": "4x40548",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            },
+            {
+                "variable": "g2.hvrt",
+                "address": "4x40550",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            }
+        ],
+        "setpoints": [
+            {
+                "variable": "g2.p",
+                "address": "4x40424",
+                "type": "uint32",
+                "format": "CDAB",
+                "scale": 1
+            },
+            {
+                "variable": "g2.q",
+                "address": "4x40426",
+                "type": "int32",
+                "format": "CDAB",
+                "scale": 1
+            }
+        ]
+    }
+}

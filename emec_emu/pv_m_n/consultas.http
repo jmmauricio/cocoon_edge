@@ -2,6 +2,11 @@
 GET http://127.0.0.1:8000/measures
 Content-Type: application/json
 
+
+### GET measures. Devuelve todas las medidas del POI y de los inversores
+GET http://192.168.100.3:8000/measures
+Content-Type: application/json
+
 ### POST setpoints. Con esta petición cambiamos la potencia activa o reactiva de referencia. 
 POST http://10.0.0.10:8000/setpoints
 Content-Type: application/json

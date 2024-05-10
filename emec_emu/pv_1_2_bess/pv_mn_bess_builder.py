@@ -1,6 +1,5 @@
 from pydae.bmapu import bmapu_builder
 from pydae.build_v2 import build_mkl
-
 import makeconfigs
 
 P_Nom_MW = 2

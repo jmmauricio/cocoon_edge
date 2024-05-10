@@ -55,23 +55,38 @@ def set_ips(data,nic_ids):
         # Create SSH client
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        print(f'adapter_name = {adapter_name}')
+        print(f"vm = {item['vm_name']}, adapter_name = {adapter_name}")
+
+        print(f"start ip ssh config")
         client.connect(hostname=ssh_ip,port=ssh_port,username=username,password=password)
         stdin, stdout, stderr = client.exec_command(f"sudo -S /usr/sbin/ifconfig {adapter_name} {item['modbus_ip']}/24")
         stdin.write('ingelectus\n')
         print(stdout.readlines())
+        print(f"end ip ssh config")
 
-        stdin, stdout, stderr = client.exec_command(f"sudo -S rm -r cocoon_edge")
+        print(f"start removing cocoon_edge")
+        stdin, stdout, stderr = client.exec_command(f"sudo -S rm -r -f cocoon_edge")
         stdin.write('ingelectus\n')
+        print(f"end removing cocoon_edge")
+
+        print(f"start clonning cocoon_edge")
         stdin, stdout, stderr = client.exec_command(f"git clone https://github.com/jmmauricio/cocoon_edge.git")
         print(stdout.readlines())
+        print(f"end clonning cocoon_edge")
 
-        # stdin, stdout, stderr = client.exec_command(f"cd cocoon_edge")
-        # print(stdout.readlines())
+        print(f"start sudo -k")
+        stdin, stdout, stderr = client.exec_command(f"sudo -k")
+        stdin.write('ingelectus\n')    
+        print(f"end sudo -k")
 
+        print(f"start edge.py")
         stdin, stdout, stderr = client.exec_command(f"cd cocoon_edge && nohup sudo -S python3 edge.py {edge_name}")
-        stdin.write('ingelectus\n')        
-        print(stdout.readlines())
+        stdin.write('ingelectus\n')    
+        stdin.flush()  
+        stdout.flush()    
+
+        #print(stdout.readlines())
+        print(f"end edge.py")
 
 
         client.close()
@@ -101,14 +116,14 @@ if __name__ == "__main__":
             {"name":"Sw0105","pos_x":-800,"pos_y":0}
         ],
         "end_nodes":[
-            # {"name":"POI","modbus_ip":"10.0.0.2","modbus_port":502, "type":"vm", "vm_name":"POI","adapter_number":1,"pos_x": 110,"pos_y":-7},
+            {"name":"POI","modbus_ip":"10.0.0.2","modbus_port":502, "type":"vm", "vm_name":"POI","adapter_number":1,"pos_x": 110,"pos_y":-7},
             # {"name":"PPC","modbus_ip":"10.0.0.3","modbus_port":502, "type":"vm", "vm_name":"ppc","adapter_number":1,"pos_x": -50,"pos_y":-100},
-             {"name":"LV0101","modbus_ip":"10.0.0.10","modbus_port":502, "type":"vm", "vm_name":"CIG01","adapter_number":1,"pos_x": -200,"pos_y":-150},
-            {"name":"LV0102","modbus_ip":"10.0.0.11","modbus_port":502, "type":"vm", "vm_name":"CIG02","adapter_number":1,"pos_x": -350,"pos_y":-150},
+           {"name":"LV0101","modbus_ip":"10.0.0.10","modbus_port":502, "type":"vm", "vm_name":"CIG01","adapter_number":1,"pos_x": -200,"pos_y":-150},
+           {"name":"LV0102","modbus_ip":"10.0.0.11","modbus_port":502, "type":"vm", "vm_name":"CIG02","adapter_number":1,"pos_x": -350,"pos_y":-150},
             {"name":"LV0103","modbus_ip":"10.0.0.12","modbus_port":502, "type":"vm", "vm_name":"CIG03","adapter_number":1,"pos_x": -500,"pos_y":-150},
             {"name":"LV0104","modbus_ip":"10.0.0.13","modbus_port":502, "type":"vm", "vm_name":"CIG04","adapter_number":1,"pos_x": -650,"pos_y":-150},
             {"name":"LV0105","modbus_ip":"10.0.0.14","modbus_port":502, "type":"vm", "vm_name":"CIG05","adapter_number":1,"pos_x": -800,"pos_y":-150},
-            {"name":"Probe", "ip":"10.0.0.4", "type":"vpcs","pos_x":0,"pos_y":200},
+          #  {"name":"Probe", "ip":"10.0.0.4", "type":"vpcs","pos_x":0,"pos_y":200},
         ],
         "links":[
             {"node_j":"POI","adapter_number_j":1,"port_number_j":0,"node_k":"SwPOI","adapter_number_k":0,"port_number_k":0},
@@ -127,12 +142,12 @@ if __name__ == "__main__":
         ],
         "vms":[
  #           {"name":"ppc",   "ssh_ip":"127.0.0.3", "ssh_port":2003},
-            # {"name":"POI",   "ssh_ip":"127.0.0.2", "ssh_port":2002},
+             {"name":"POI",   "ssh_ip":"127.0.0.2", "ssh_port":2002},
             {"name":"CIG01", "ssh_ip":"127.0.0.10", "ssh_port":2010},
-            # {"name":"CIG02", "ssh_ip":"127.0.0.11", "ssh_port":2011},
-            # {"name":"CIG03", "ssh_ip":"127.0.0.12", "ssh_port":2012},
-            # {"name":"CIG04", "ssh_ip":"127.0.0.13", "ssh_port":2013},
-            # {"name":"CIG05", "ssh_ip":"127.0.0.14", "ssh_port":2014}        
+            {"name":"CIG02", "ssh_ip":"127.0.0.11", "ssh_port":2011},
+            {"name":"CIG03", "ssh_ip":"127.0.0.12", "ssh_port":2012},
+            {"name":"CIG04", "ssh_ip":"127.0.0.13", "ssh_port":2013},
+            {"name":"CIG05", "ssh_ip":"127.0.0.14", "ssh_port":2014}        
         ]
     }
 

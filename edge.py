@@ -12,6 +12,8 @@ import time
 import numpy as np
 from modbus import modbus_client
 
+import logging
+logging.basicConfig(format='%(asctime)s %(message)s')
 
 
 class Edge:
@@ -28,6 +30,8 @@ class Edge:
         self.edge_config = {}
         self.edge_config.update({'api_ip':config_devices['api']['host']})
         self.edge_config.update({'api_port':config_devices['api']['port']})
+
+        logging.info(self.edge_config)
 
         # find current device in configuration
         for item in config_devices['devices']:
@@ -69,11 +73,13 @@ class Edge:
     # else: self.from_api = []
 
     def setup(self):
-
     
             self.modbus_client = modbus_client.Modbus_client(self.modbus_ip,self.modbus_port)
 
             self.api_client = http.client.HTTPConnection(self.edge_config['api_ip'], self.edge_config['api_port'])
+            
+            logging.info(f"Connected to Emulator API in ip = {self.edge_config['api_ip']}, port = {self.edge_config['api_port']}")
+
             self.api_headers = {'Content-type': 'application/json'}
 
     def update(self):
@@ -104,9 +110,9 @@ class Edge:
                 # to api
                 api_value = mb_value/K_api2modbus/modbus_variable['scale']
                 to_api_dict.update({api_var_name:api_value})
-                print(f"{modbus_variable_id}@{self.modbus_ip}:{self.modbus_port}/{modbus_variable['address']} -> {api_var_name} = {api_value}")           
 
-                    
+                logging.debug(f"{modbus_variable_id}@{self.modbus_ip}:{self.modbus_port}/{modbus_variable['address']} -> {api_var_name} = {api_value}")           
+                   
             to_api_json = json.dumps(to_api_dict)  # Convert dictionary to JSON format
             self.api_client.request('POST', '/setpoints', to_api_json, self.api_headers)     # Send POST request
             response = self.api_client.getresponse() # Get response from server
@@ -137,9 +143,9 @@ class Edge:
                 value_mb = int(modbus_variable['scale']*value_api)
                 self.modbus_client.write(value_mb,modbus_variable['address'], modbus_variable['type'],format=modbus_variable['format'])
                 #print(f"{modbus_variable}@{modbus_ip}:{modbus_port},'->',api_var_name")
-                print(f"{api_var_name} = {api_value} -> {modbus_variable_id}@{self.modbus_ip}:{self.modbus_port}/{modbus_variable['address']} = {value_mb}")           
+                logging.debug(f"{api_var_name} = {value_api} -> {modbus_variable_id}@{self.modbus_ip}:{self.modbus_port}/{modbus_variable['address']} = {value_mb}")           
 
-            time.sleep(1)
+            time.sleep(0.1)
 
 
 def modbus_server(modbus_server_ip,modbus_server_port):
@@ -154,10 +160,8 @@ def modbus_server(modbus_server_ip,modbus_server_port):
     context = ModbusServerContext(slaves=store, single=True)
 
     address = (modbus_server_ip, modbus_server_port)
-    print(f'Server start at: {address}')
-    server = StartTcpServer(context=context,address=address)
-
-    
+    logging.info(f'Starting server start at: {address}')
+    server = StartTcpServer(context=context,address=address)    
 
 def edge_run(name, cfg_dev, cfg_ctrl):
 
