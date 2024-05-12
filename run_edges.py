@@ -5,10 +5,13 @@ import multiprocessing
 
 def run_command(host):
     host_pid = host['host_pid']
-    api_id = host['api_id']
+    emec_api_id = host['emec_api_id']
 
-    command = f"sudo mnexec -a {host_pid} python3 ./edges/edge.py {api_id} -cfg_dev ./emec_emu/config_devices.json"
+    command = f"sudo mnexec -a {host_pid} python3 ./edges/edge.py {emec_api_id} -cfg_dev ./emec_emu/config_devices.json"
+    print(command)
     subprocess.run(command, shell=True)
+
+    
 
 
 def run_in_host(json_file):
@@ -19,8 +22,7 @@ def run_in_host(json_file):
     for item in hosts_dict:
         host_pid = hosts_dict[item]['pid']
         api_id = item
-        print(f"sudo mnexec -a {host_pid} python3 edge.py {api_id} -cfg_dev config_devices.json")
-        host_dict = {'api_id':api_id,'host_pid':host_pid}
+        host_dict = {'host_id':item, 'emec_api_id':api_id,'host_pid':host_pid}
         process = multiprocessing.Process(target=run_command, args=(host_dict,))
         process.start()
         

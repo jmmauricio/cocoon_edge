@@ -42,6 +42,9 @@ import json
 
 def interSecureModelNetwork():
 
+    M = 2
+    N = 3
+
     net = Mininet( topo=None,
                    build=False,
                    ipBase='1.0.0.0/8')
@@ -54,10 +57,16 @@ def interSecureModelNetwork():
 
     switchType = OVSKernelSwitch; 
 
+    dpid = 1
     info( '*** Starting networking devices\n')
-    sPOI =  net.addSwitch( 'sPOI', cls=switchType, dpid='1',failMode='standalone')    
-    s0101 = net.addSwitch('s0101', cls=switchType, dpid='2',failMode='standalone')    
-    s0102 = net.addSwitch('s0102', cls=switchType, dpid='3',failMode='standalone')    
+    sPOI =  net.addSwitch( 'sPOI', cls=switchType, dpid=f'{dpid}',failMode='standalone')    
+
+    for i_m in range(1,M+1):
+        for i_n in range(1,N+1):
+            dpid += 1
+            name = f"{i_m}".zfill(2) + f"{i_n}".zfill(2)
+            net.addSwitch(f's{name}', cls=switchType, dpid=f'{dpid}',failMode='standalone')    
+
     
 
     info( '*** Starting external connection\n')    
@@ -68,8 +77,13 @@ def interSecureModelNetwork():
     POI   = net.addHost(  'POI', cls=Host, ip='10.0.0.3/16', defaultRoute='10.0.0.1',mac='00:00:00:00:00:03')  # POI 
     PPC   = net.addHost(  'PPC', cls=Host, ip='10.0.0.4/16', defaultRoute='10.0.0.1',mac='00:00:00:00:00:04')  # PPC
     Probe = net.addHost('Probe', cls=Host, ip='10.0.0.5/16', defaultRoute='10.0.0.1',mac='00:00:00:00:00:05')  # Probe    
-    LV0101 = net.addHost('LV0101', cls=Host, ip='10.0.1.1/16', defaultRoute='10.0.0.1',mac='00:00:00:00:01:01')  # Gen 0101    
-    LV0102 = net.addHost('LV0102', cls=Host, ip='10.0.1.2/16', defaultRoute='10.0.0.1',mac='00:00:00:00:01:02')  # Gen 0102    
+
+    for i_m in range(1,M+1):
+        for i_n in range(1,N+1):
+            dpid += 1
+            m_str,n_str =  f"{i_m}".zfill(2),f"{i_n}".zfill(2)
+            name = m_str + n_str 
+            net.addHost(f'LV{name}', cls=Host, ip=f'10.0.{i_m}.{i_n}/16', defaultRoute='10.0.0.1',mac=f'00:00:00:00:{m_str}:{n_str}')   
 
     info( '*** Setting link parameters\n')
     #WAN1 = {'bw':1000,'delay':'20ms','loss':1,'jitter':'10ms'} 
@@ -82,16 +96,22 @@ def interSecureModelNetwork():
     net.addLink(  PPC, sPOI)
     net.addLink(Probe, sPOI)
 
-    net.addLink( sPOI, s0101)
-    net.addLink(s0101, s0102)
 
-    net.addLink(LV0101, s0101)
-    net.addLink(LV0102, s0102)
+
+    for i_m in range(1,M+1):
+        name_j = "sPOI"
+        for i_n in range(1,N+1):
+            name = f"{i_m}".zfill(2) + f"{i_n}".zfill(2)
+            name_k = 's' + name
+
+            net.addLink(name_j, name_k)
+            net.addLink(f"LV{name}", name_k, cls=TCLink, delay='100ms')
+            net.addLink(f"LV{name}", sEEMU)
+            name_k = name_j
+
 
     net.addLink(  POI, sEEMU)
-    net.addLink(LV0101, sEEMU)
-    net.addLink(LV0102, sEEMU)
-
+    
     #net.addLink(WANR1, DSS1GW, cls=TCLink , **MBPS)
     info( '\n')
 
@@ -103,8 +123,14 @@ def interSecureModelNetwork():
 
     info( '*** Starting networking devices \n')
     net.get( 'sPOI').start([])
-    net.get('s0101').start([])
-    net.get('s0102').start([])
+
+    for i_m in range(1,M+1):
+        for i_n in range(1,N+1):
+            dpid += 1
+            m_str,n_str =  f"{i_m}".zfill(2),f"{i_n}".zfill(2)
+            name = m_str + n_str 
+            net.get(f's{name}').start([])
+
     net.get('sEEMU').start([])
     info( '\n')
 
@@ -113,19 +139,36 @@ def interSecureModelNetwork():
     net.get(  'POI').cmd('ifconfig POI-eth1 172.16.0.3 netmask 255.0.0.0')
     net.get(  'PPC').cmd('ifconfig PPC-eth1 172.16.0.4 netmask 255.0.0.0')
     #net.get('Probe').cmd('ifconfig Probe-eth1 10.0.0.5 netmask 255.0.0.0')
-    net.get('LV0101').cmd('ifconfig LV0101-eth1 172.16.1.1 netmask 255.0.0.0')
-    net.get('LV0102').cmd('ifconfig LV0102-eth1 172.16.1.2 netmask 255.0.0.0')
+
+
+    for i_m in range(1,M+1):
+        for i_n in range(1,N+1):
+            dpid += 1
+            m_str,n_str =  f"{i_m}".zfill(2),f"{i_n}".zfill(2)
+            name = m_str + n_str 
+            net.get(f's{name}').start([])
+
+            net.get(f'LV{name}').cmd(f'ifconfig LV{name}-eth1 172.16.{m_str}.{n_str} netmask 255.0.0.0')
 
     hosts_dict = {}
-    for item in ['POI','LV0101','LV0102']:
+    for item in ['POI']:
         #pid = net.get(item).cmd(f"pgrep -f '{item}'| head -n 1")
         pid_raw = net.get(item).cmd(f"pgrep -f '{item}'")
         pid_raws = pid_raw.split('\r\n')
         print(pid_raws)
-
         hosts_dict.update({item:{'pid':int(pid_raws[-2])}})
 
-    
+    for i_m in range(1,M+1):
+        for i_n in range(1,N+1):
+            m_str,n_str =  f"{i_m}".zfill(2),f"{i_n}".zfill(2)
+            name = m_str + n_str 
+            #pid = net.get(item).cmd(f"pgrep -f '{item}'| head -n 1")
+            pid_raw = net.get(f'LV{name}').cmd(f"pgrep -f 'LV{name}'")
+            pid_raws = pid_raw.split('\r\n')
+            print('LV',pid_raws)
+            hosts_dict.update({f'LV{name}':{'pid':int(pid_raws[-2])}})
+
+    print(hosts_dict)
     # Convert dictionary to JSON
     hosts_json = json.dumps(hosts_dict, indent=4)
 

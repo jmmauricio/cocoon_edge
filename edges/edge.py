@@ -35,15 +35,16 @@ class Edge:
 
         logging.info(self.edge_config)
 
-        # find current device in configuration
+        # find current device in configuration file config_devices.json
         for item in config_devices['devices']:
             if item['api_id'] ==  self.name:
                 self.edge_config.update(item)
                 api_configs = config_devices['api_configs']
                 api_config = api_configs[item['api_config']]
                 self.edge_config.update({'api_config':api_config})
+                print('api_config', api_config)
 
-        # get adapter_ID 
+        # get adapter_ID in config_controller.json
         for item in config_controller['configuration']['collector']['config']['devices']:
             if item['id'] ==  self.edge_config['id']:
                 adapterID = item["adapterID"]
@@ -51,17 +52,18 @@ class Edge:
 
         # get adapter configuration
         for item in config_controller['configuration']['collector']['config']['adapters']:
-                if item['id'] ==  self.edge_config['adapterID']:
-                    self.edge_config.update({"modbus_config":item['config']})
+            if item['id'] ==  self.edge_config['adapterID']:
+                self.edge_config.update({"modbus_config":item['config']})
 
         # is the device an inverter?
         for item in config_controller['inverters']:
             if item['id'] ==  self.edge_config['id']:    
                 self.edge_config.update({"inverter":item}) # if it is, get parameters.
 
-
-        self.modbus_ip = self.edge_config['modbus_ip']
-        self.modbus_port = self.edge_config['modbus_port']     
+        print(self.edge_config)
+        if 'modbus_ip' in  self.edge_config:
+            self.modbus_ip = self.edge_config['modbus_ip']
+            self.modbus_port = self.edge_config['modbus_port']     
 
 
     # self.device = config_devices
@@ -146,8 +148,8 @@ class Edge:
                 self.modbus_client.write(value_mb,modbus_variable['address'], modbus_variable['type'],format=modbus_variable['format'])
                 #print(f"{modbus_variable}@{modbus_ip}:{modbus_port},'->',api_var_name")
                 logging.debug(f"{api_var_name} = {value_api} -> {modbus_variable_id}@{self.modbus_ip}:{self.modbus_port}/{modbus_variable['address']} = {value_mb}")           
-                #print(f"{api_var_name} = {value_api} -> {modbus_variable_id}@{self.modbus_ip}:{self.modbus_port}/{modbus_variable['address']} = {value_mb}")
-            time.sleep(0.05)
+                print(f"{api_var_name} = {value_api} -> {modbus_variable_id}@{self.modbus_ip}:{self.modbus_port}/{modbus_variable['address']} = {value_mb}")
+            time.sleep(0.1)
 
 
 def modbus_server(modbus_server_ip,modbus_server_port):
@@ -182,8 +184,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("id", help="id name of the device")
-    parser.add_argument("-cfg_dev", help="./emec_emu/config_controller.json file")
-    parser.add_argument("-cfg_ctrl", help="./emec_emu/config_devices.json file")
+    parser.add_argument("-cfg_dev", help="config_devices.json file")
+    parser.add_argument("-cfg_ctrl", help="config_controller.json file")
     args = parser.parse_args()
     name = args.id    
 

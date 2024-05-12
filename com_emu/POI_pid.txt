@@ -1,3 +1,0 @@
-root       13735   13720  1 02:10 pts/4    00:00:00 bash --norc --noediting -is mininet:sPOI
-root       13750   13720  2 02:10 pts/8    00:00:00 bash --norc --noediting -is mininet:POI
-root       14012   13750  0 02:10 pts/8    00:00:00 grep POI
