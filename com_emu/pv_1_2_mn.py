@@ -38,6 +38,7 @@ from mininet.log import setLogLevel, info
 from mininet.link import TCLink, Intf
 from subprocess import call
 import time 
+import json
 
 def interSecureModelNetwork():
 
@@ -114,6 +115,25 @@ def interSecureModelNetwork():
     #net.get('Probe').cmd('ifconfig Probe-eth1 10.0.0.5 netmask 255.0.0.0')
     net.get('h0101').cmd('ifconfig h0101-eth1 172.16.1.1 netmask 255.0.0.0')
     net.get('h0102').cmd('ifconfig h0102-eth1 172.16.1.2 netmask 255.0.0.0')
+
+    hosts_dict = {}
+    for item in ['POI','h0101','h0102']:
+        #pid = net.get(item).cmd(f"pgrep -f '{item}'| head -n 1")
+        pid_raw = net.get(item).cmd(f"pgrep -f '{item}'")
+        pid_raws = pid_raw.split('\r\n')
+        print(pid_raws)
+
+        hosts_dict.update({item:{'pid':int(pid_raws[-2])}})
+
+    
+    # Convert dictionary to JSON
+    hosts_json = json.dumps(hosts_dict, indent=4)
+
+    # Write JSON data to a file
+    with open("hosts.json", "w") as json_file:
+        json_file.write(hosts_json)
+
+
     info( '*** Model Started *** \n' )
     CLI(net)
     net.stop()

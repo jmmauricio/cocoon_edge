@@ -1,60 +1,27 @@
 {
     "api": {
         "scheme": "http",
-        "host": "172.25.192.1",
+        "host": "172.16.0.1",
         "port": 8000
     },
     "devices": [
-                  {"id":"POI", "modbus_ip":"10.0.0.2","modbus_port":502,
-                   "v_name": "V_POI",
-                    "from_api":[
-                               {"api":{"name":"V_POI","min":0.0,"max":2.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":1}}
-                               ]
-                  },
-                  {"id":"LV0101", "modbus_ip":"10.0.0.10","modbus_port":502,
-                   "q_ref_name":"q_s_ppc_LV0101","S_mva":1,
-                    "to_api":[
-                             {"api":{"name":"p_s_ppc_LV0101","ini":2.0,"min": 0.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":3}},
-                             {"api":{"name":"q_s_ppc_LV0101","ini":0.0,"min":-1.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":4}}
-                             ],
-                    "from_api":[
-                             {"api":{"name":"p_s_LV0101","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":1}},
-                             {"api":{"name":"q_s_LV0101","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":2}}
-                    ]
-                  },
-                  {"id":"LV0102", "modbus_ip":"10.0.0.11","modbus_port":502,
-                   "q_ref_name":"q_s_ppc_LV0102","S_mva":1,
-                    "to_api":[
-                             {"api":{"name":"p_s_ppc_LV0102","ini":2.0,"min": 0.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":3}},
-                             {"api":{"name":"q_s_ppc_LV0102","ini":0.0,"min":-1.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":4}}
-                             ],
-                    "from_api":[
-                             {"api":{"name":"p_s_LV0102","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":1}},
-                             {"api":{"name":"q_s_LV0102","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":2}}
-                    ]
-                  },
-                  {"id":"LV0103", "modbus_ip":"10.0.0.12","modbus_port":502,
-                   "q_ref_name":"q_s_ppc_LV0103","S_mva":1,
-                    "to_api":[
-                             {"api":{"name":"p_s_ppc_LV0103","ini":2.0,"min": 0.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":3}},
-                             {"api":{"name":"q_s_ppc_LV0103","ini":0.0,"min":-1.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":4}}
-                             ],
-                    "from_api":[
-                             {"api":{"name":"p_s_LV0103","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":1}},
-                             {"api":{"name":"q_s_LV0103","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":2}}
-                    ]
-                  },
-                  {"id":"LV0104", "modbus_ip":"10.0.0.13","modbus_port":502,
-                   "q_ref_name":"q_s_ppc_LV0104","S_mva":1,
-                    "to_api":[
-                             {"api":{"name":"p_s_ppc_LV0104","ini":2.0,"min": 0.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":3}},
-                             {"api":{"name":"q_s_ppc_LV0104","ini":0.0,"min":-1.0,"max":1.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":4}}
-                             ],
-                    "from_api":[
-                             {"api":{"name":"p_s_LV0103","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":1}},
-                             {"api":{"name":"q_s_LV0103","min":-5.0,"max":5.0},"modbus":{"reg_type":"holding","type":"uint16","reg_number":2}}
-                    ]
-                  }
-                  ]             
-}
+                  {"id":"poi",  "api_id":   "POI", "modbus_ip":"10.0.0.3","modbus_port":502,"api_config":"poi"},
+                  {"id":"inv1", "api_id":"LV0101", "modbus_ip":"10.0.1.1","modbus_port":502,"api_config":"inv"},
+                  {"id":"inv2", "api_id":"LV0102", "modbus_ip":"10.0.1.2","modbus_port":502,"api_config":"inv"}
+              ],
+    "api_configs":{
+          "poi":{"from_api":[{"api_prefix":"V","min":0.0,"max":2.0, "modbus_variable":"VoltageAVG"}],
+                "to_api":[
+                ]},
+          "inv":{"to_api":[
+                           {"api_prefix":"p_s_ppc","ini":2.0,"min": 0.0,"max":1.0, "modbus_variable":"SetActivePower"},
+                           {"api_prefix":"q_s_ppc","ini":0.0,"min":-1.0,"max":1.0, "modbus_variable":"SetReactivePower"}
+                    ],
+                "from_api":[
+                           {"api_prefix":"p_s","ini":2.0,"min": 0.0,"max":1.0, "modbus_variable":"ActivePower"},
+                           {"api_prefix":"q_s","ini":0.0,"min":-1.0,"max":1.0, "modbus_variable":"ReactivePower"}
+                ]}
+    }
+  }
+
             
