@@ -1,0 +1,26 @@
+version: "3.5"
+services:
+  # pydae
+  pydae:
+    container_name: ppc_pydae
+    image: ingelectus.com/helios/pydae
+    restart: "always"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "2"
+    ports:
+      - "8000:8000"
+    networks: 
+      - frontend
+    environment:
+      - OMP_NUM_THREADS=4
+
+
+networks:
+  frontend:
+    name: ppc_frontend
+    ipam:
+      config:
+        - subnet: 172.31.0.1/24
