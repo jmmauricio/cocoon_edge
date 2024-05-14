@@ -1,0 +1,36 @@
+{
+    "input": {
+        "m_gen": 5,
+        "n_gen": 10,
+        "dt_mid": 0.05,
+        "dt": 0.025,
+        "pvs": {
+            "temp": 36,
+            "irrad": 600,
+            "p_ref_ppc": 1,
+            "p_max": 72,
+            "ramp_p": false,
+            "inverter_response":{
+                "T_lp1p": 0.05,
+                "T_lp2p": 0.05,
+                "PRampDown": -10,
+                "PRampUp": 10,
+                "T_lp1q": 0.05,
+                "T_lp2q": 0.05,
+                "QRampDown": -10,
+                "QRampUp": 10
+            },
+            "lvrt": {
+                "mode": 1,
+                "lv_umbral": 0.8,
+                "lv_in": 0.85,
+                "hv_in":1.15, 
+                "lv_out": 0.9,
+                "hv_out": 1.1, 
+                "t_in": 0.1,
+                "t_out": 10,
+                "i_ref": 0.5 
+            }
+        }
+    }
+}
