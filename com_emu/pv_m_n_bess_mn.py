@@ -43,7 +43,7 @@ import json
 def interSecureModelNetwork():
 
     M = 2
-    N = 3
+    N = 10
 
     net = Mininet( topo=None,
                    build=False,
