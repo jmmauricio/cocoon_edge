@@ -1,0 +1,502 @@
+{
+    "api": {
+        "scheme": "http",
+        "host": "0.0.0.0",
+        "port": 5000,
+        "cert": "server.crt",
+        "key": "server.key"
+    },
+    "configuration": {
+        "collector": {
+            "scheme": "http",
+            "host": "collector",
+            "port": 5050,
+            "config": {
+                "adapters": [
+                    {
+                        "id": "poi",
+                        "type": "modbus-gen",
+                        "interval": 200,
+                        "config": {
+                            "ActivePower": {
+                                "address": 370,
+                                "reg_type": "holding",
+                                "slaveID": 1,
+                                "type": "int32",
+                                "size": 4,
+                                "format": "CDAB",
+                                "scale": 1,
+                                "read_individual": false
+                            },
+                            "ReactivePower": {
+                                "address": 374,
+                                "reg_type": "holding",
+                                "slaveID": 1,
+                                "type": "int32",
+                                "size": 4,
+                                "format": "CDAB",
+                                "scale": 1,
+                                "read_individual": false
+                            },
+                            "VoltageAVG": {
+                                "address": 372,
+                                "reg_type": "holding",
+                                "slaveID": 1,
+                                "type": "int16",
+                                "size": 2,
+                                "format": "AB",
+                                "scale": 100,
+                                "read_individual": false
+                            },
+                            "Frequency": {
+                                "address": 900,
+                                "reg_type": "holding",
+                                "slaveID": 1,
+                                "type": "uint16",
+                                "size": 2,
+                                "format": "AB",
+                                "scale": 1,
+                                "read_individual": false
+                            }
+                        }
+                    },
+                    {
+                        "id": "inv",
+                        "type": "modbus-gen",
+                        "interval": 200,
+                        "config": {
+                            "ActivePower": {
+                                "address": 40525,
+                                "reg_type": "holding",
+                                "slaveID": 1,
+                                "type": "int32",
+                                "size": 4,
+                                "format": "CDAB",
+                                "scale": 1
+                            },
+                            "ReactivePower": {
+                                "address": 40544,
+                                "reg_type": "holding",
+                                "slaveID": 1,
+                                "type": "int32",
+                                "size": 4,
+                                "format": "CDAB",
+                                "scale": 1
+                            },
+                            "VoltageAVG": {
+                                "address": 40546,
+                                "reg_type": "holding",
+                                "slaveID": 1,
+                                "type": "int32",
+                                "size": 4,
+                                "format": "CDAB",
+                                "scale": 0.001
+                            },
+                            "SetActivePower": {
+                                "address": 40424,
+                                "reg_type": "holding",
+                                "slaveID": 1,
+                                "type": "uint32",
+                                "size": 4,
+                                "format": "CDAB",
+                                "scale": 1
+                            },
+                            "SetReactivePower": {
+                                "address": 40426,
+                                "reg_type": "holding",
+                                "slaveID": 1,
+                                "type": "int32",
+                                "size": 4,
+                                "format": "CDAB",
+                                "scale": 1
+                            }
+                        }
+                    }
+                ],
+                "devices": [
+                    {
+                        "id": "poi",
+                        "adapterID": "poi",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2000
+                        }
+                    },
+                    {
+                        "id": "inv1",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2002
+                        }
+                    },
+                    {
+                        "id": "inv2",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2003
+                        }
+                    },
+                    {
+                        "id": "inv3",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2004
+                        }
+                    },
+                    {
+                        "id": "inv4",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2005
+                        }
+                    },
+                    {
+                        "id": "inv5",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2006
+                        }
+                    },
+                    {
+                        "id": "inv6",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2007
+                        }
+                    },
+                    {
+                        "id": "inv7",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2008
+                        }
+                    },
+                    {
+                        "id": "inv8",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2009
+                        }
+                    },
+                    {
+                        "id": "inv9",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2010
+                        }
+                    },
+                    {
+                        "id": "inv10",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2011
+                        }
+                    },
+                    {
+                        "id": "inv11",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2012
+                        }
+                    },
+                    {
+                        "id": "inv12",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2013
+                        }
+                    },
+                    {
+                        "id": "inv13",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2014
+                        }
+                    },
+                    {
+                        "id": "inv14",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2015
+                        }
+                    },
+                    {
+                        "id": "inv15",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2016
+                        }
+                    },
+                    {
+                        "id": "inv16",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2017
+                        }
+                    },
+                    {
+                        "id": "inv17",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2018
+                        }
+                    },
+                    {
+                        "id": "inv18",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2019
+                        }
+                    },
+                    {
+                        "id": "inv19",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2020
+                        }
+                    },
+                    {
+                        "id": "inv20",
+                        "adapterID": "inv",
+                        "info": {
+                            "host": "simulator",
+                            "port": 2021
+                        }
+                    }
+                ]
+            }
+        },
+        "plant": {
+            "id": "PYDAE",
+            "p": 1000000,
+            "f": 50,
+            "v": 132000
+        },
+        "license": {
+            "ppc.enabled": true,
+            "p.enabled": true,
+            "curt.enabled": true,
+            "ramp.p.enabled": true,
+            "ramp.q.enabled": true,
+            "pfr.enabled": true,
+            "q.enabled": true,
+            "pf.enabled": true,
+            "vrs.enabled": true,
+            "qlimit.enabled": true,
+            "redundancy.enabled": false,
+            "qv.enabled": true,
+            "tap.enabled": false,
+            "opf.enabled": false,
+            "agc.enabled": true,
+            "ear.enabled": false,
+            "plimit.enabled": true,
+            "equilibrator.enabled": true
+        },
+        "initialization": {
+            "fugue.enabled": false,
+            "fugue.p": false,
+            "fugue.q": false
+        }
+    },
+    "inverters": [
+        {
+            "id": "inv1",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv2",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv3",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv4",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv5",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv6",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv7",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv8",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv9",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv10",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv11",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv12",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv13",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv14",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv15",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv16",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv17",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv18",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv19",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        },
+        {
+            "id": "inv20",
+            "enabled": true,
+            "sbase": 1000000,
+            "pmax": 1000000,
+            "qmax": 500000,
+            "qmin": -500000,
+            "vbase": 630
+        }
+    ]
+}

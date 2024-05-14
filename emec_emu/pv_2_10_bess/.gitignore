@@ -16,3 +16,6 @@
 !requirements.txt
 !README.md
 !vrt_state.py
+!config_devices.json
+!config_controller.json
+!functions
