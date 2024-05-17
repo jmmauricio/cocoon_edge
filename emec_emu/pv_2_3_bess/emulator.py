@@ -273,7 +273,7 @@ class Emulator():
             return Response(content=json.dumps(dimensions), media_type='application/json')
       
         print('run uvicorn')
-        uvicorn.run(app,host="0.0.0.0", port = 8001, log_level='critical')
+        uvicorn.run(app,host="0.0.0.0", port = 8000, log_level='critical')
         print('uvicorn ran')
 
 
