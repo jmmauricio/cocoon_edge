@@ -22,6 +22,8 @@ sudo mnexec -a 1433 bash
 
 sudo mnexec -a 1437 bash
 sudo mnexec -a 1439 bash
+sudo mnexec -a 8184 bash
+
 '''
 
 
@@ -43,7 +45,7 @@ import json
 def interSecureModelNetwork():
 
     M = 2
-    N = 10
+    N = 3
 
     net = Mininet( topo=None,
                    build=False,
@@ -57,9 +59,11 @@ def interSecureModelNetwork():
 
     switchType = OVSKernelSwitch; 
 
-    dpid = 1
     info( '*** Starting networking devices\n')
-    sPOI =  net.addSwitch( 'sPOI', cls=switchType, dpid=f'{dpid}',failMode='standalone')    
+    dpid = 1
+    sPOI =  net.addSwitch( 'sPOI', cls=switchType, dpid=f'{dpid}',failMode='standalone')   
+    dpid = 2
+    sEXT =  net.addSwitch( 'sEXT', cls=switchType, dpid=f'{dpid}',failMode='standalone')    
 
     for i_m in range(1,M+1):
         for i_n in range(1,N+1):
@@ -69,21 +73,24 @@ def interSecureModelNetwork():
 
     
 
-    info( '*** Starting external connection\n')    
-    sEEMU = net.addSwitch('sEEMU', cls=switchType, dpid='4',failMode='standalone')  # switch for the electrical emulator
-    Intf( 'enp0s8', node=sEEMU )  # EDIT the interface name here! 
+    info( '*** Starting external connection\n')   
+    dpid += 1 
+    sEEMU = net.addSwitch('sEEMU', cls=switchType, dpid=f'{dpid}',failMode='standalone')  # switch for the electrical emulator
+    Intf(  'enp0s8', node=sEEMU )  # EDIT the interface name here! 
+    Intf(  'enp0s9', node=sEXT )  # EDIT the interface name here! 
+    Intf( 'enp0s10', node=sPOI )  # EDIT the interface name here! 
 
     info( '*** Starting hosts \n')
-    POI   = net.addHost(  'POI', cls=Host, ip='10.0.0.3/16', defaultRoute='10.0.0.1',mac='00:00:00:00:00:03')  # POI 
-    PPC   = net.addHost(  'PPC', cls=Host, ip='10.0.0.4/16', defaultRoute='10.0.0.1',mac='00:00:00:00:00:04')  # PPC
-    Probe = net.addHost('Probe', cls=Host, ip='10.0.0.5/16', defaultRoute='10.0.0.1',mac='00:00:00:00:00:05')  # Probe    
+    POI   = net.addHost(  'POI', cls=Host, ip='10.0.0.3/8', defaultRoute='10.0.0.1',mac='00:00:00:00:00:03')  # POI 
+    PPC   = net.addHost(  'PPC', cls=Host, ip='10.0.0.4/8', defaultRoute='10.0.0.1',mac='00:00:00:00:00:04')  # PPC
+    Probe = net.addHost('Probe', cls=Host, ip='10.0.0.5/8', defaultRoute='10.0.0.1',mac='00:00:00:00:00:05')  # Probe    
 
     for i_m in range(1,M+1):
         for i_n in range(1,N+1):
             dpid += 1
             m_str,n_str =  f"{i_m}".zfill(2),f"{i_n}".zfill(2)
             name = m_str + n_str 
-            net.addHost(f'LV{name}', cls=Host, ip=f'10.0.{i_m}.{i_n}/16', defaultRoute='10.0.0.1',mac=f'00:00:00:00:{m_str}:{n_str}')   
+            net.addHost(f'LV{name}', cls=Host, ip=f'10.0.{i_m}.{i_n}/8', defaultRoute='10.0.0.1',mac=f'00:00:00:00:{m_str}:{n_str}')   
 
     info( '*** Setting link parameters\n')
     #WAN1 = {'bw':1000,'delay':'20ms','loss':1,'jitter':'10ms'} 
@@ -105,13 +112,14 @@ def interSecureModelNetwork():
             name_k = 's' + name
 
             net.addLink(name_j, name_k)
-            net.addLink(f"LV{name}", name_k, cls=TCLink, delay='100ms')
+            net.addLink(f"LV{name}", name_k, cls=TCLink, delay='20ms')
             net.addLink(f"LV{name}", sEEMU)
-            name_k = name_j
+            name_j = name_k
 
 
     net.addLink(  POI, sEEMU)
-    
+    net.addLink(  PPC, sEXT)
+
     #net.addLink(WANR1, DSS1GW, cls=TCLink , **MBPS)
     info( '\n')
 
@@ -132,13 +140,15 @@ def interSecureModelNetwork():
             net.get(f's{name}').start([])
 
     net.get('sEEMU').start([])
+    net.get('sEXT').start([])
+
     info( '\n')
 
     info( '*** Preparing custom sgsim scripts \n')
     #CLI.do_webserver = webserver    
-    net.get(  'POI').cmd('ifconfig POI-eth1 172.16.0.3 netmask 255.0.0.0')
-    net.get(  'PPC').cmd('ifconfig PPC-eth1 172.16.0.4 netmask 255.0.0.0')
-    #net.get('Probe').cmd('ifconfig Probe-eth1 10.0.0.5 netmask 255.0.0.0')
+    net.get(  'POI').cmd('ifconfig POI-eth1 172.16.0.3 netmask 255.240.0.0')
+    net.get(  'PPC').cmd('ifconfig PPC-eth1 172.20.0.3 netmask 255.240.0.0')
+    net.get('Probe').cmd('ifconfig Probe-eth1 10.0.0.5 netmask 255.0.0.0')
 
 
     for i_m in range(1,M+1):

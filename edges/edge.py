@@ -42,7 +42,7 @@ class Edge:
                 api_configs = config_devices['api_configs']
                 api_config = api_configs[item['api_config']]
                 self.edge_config.update({'api_config':api_config})
-                print('api_config', api_config)
+                #print('api_config', api_config)
 
         # get adapter_ID in config_controller.json
         for item in config_controller['configuration']['collector']['config']['devices']:
@@ -60,7 +60,7 @@ class Edge:
             if item['id'] ==  self.edge_config['id']:    
                 self.edge_config.update({"inverter":item}) # if it is, get parameters.
 
-        print(self.edge_config)
+        #print(self.edge_config)
         if 'modbus_ip' in  self.edge_config:
             self.modbus_ip = self.edge_config['modbus_ip']
             self.modbus_port = self.edge_config['modbus_port']     
@@ -148,7 +148,7 @@ class Edge:
                 self.modbus_client.write(value_mb,modbus_variable['address'], modbus_variable['type'],format=modbus_variable['format'])
                 #print(f"{modbus_variable}@{modbus_ip}:{modbus_port},'->',api_var_name")
                 logging.debug(f"{api_var_name} = {value_api} -> {modbus_variable_id}@{self.modbus_ip}:{self.modbus_port}/{modbus_variable['address']} = {value_mb}")           
-                print(f"{api_var_name} = {value_api} -> {modbus_variable_id}@{self.modbus_ip}:{self.modbus_port}/{modbus_variable['address']} = {value_mb}")
+                #print(f"{api_var_name} = {value_api} -> {modbus_variable_id}@{self.modbus_ip}:{self.modbus_port}/{modbus_variable['address']} = {value_mb}")
             time.sleep(0.1)
 
 

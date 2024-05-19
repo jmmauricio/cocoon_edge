@@ -7,7 +7,7 @@ def run_command(host):
     host_pid = host['host_pid']
     emec_api_id = host['emec_api_id']
 
-    command = f"sudo mnexec -a {host_pid} python3 ./edges/edge.py {emec_api_id} -cfg_dev ./emec_emu/pv_2_3_bess/config_devices.json -cfg_ctrl './emec_emu/pv_2_3_bess/config_controller.json'"
+    command = f"sudo mnexec -a {host_pid} python3 ./edges/edge.py {emec_api_id} -cfg_dev ./emec_emu/pv_2_3_bess/config_devices.json -cfg_ctrl ./emec_emu/pv_2_3_bess/config_controller.json"
     print(command)
     subprocess.run(command, shell=True)
 
