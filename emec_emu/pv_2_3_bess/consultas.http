@@ -1,5 +1,5 @@
 ### GET measures. Devuelve todas las medidas del POI y de los inversores
-GET http://127.0.0.1:8000/measures
+GET http://127.0.0.1:8001/measures
 Content-Type: application/json
 
 
@@ -18,14 +18,22 @@ Content-Type: application/json
 
 # 0.9999845947001552
 ### POST setpoints. Con esta petición cambiamos la potencia activa o reactiva de referencia. 
-POST http://localhost:8000/setpoints
+POST http://localhost:8001/setpoints
 Content-Type: application/json
 
 {
-    "q_s_ppc_LV0101" : 0.0,
-    "q_s_ppc_LV0102" : 0.0,
-    "q_s_ppc_LV0103" : 0.0,
-    "q_s_ppc_LV0104" : 0.5,
+    "p_s_ppc_LV0101" : 0.8,
+    "p_s_ppc_LV0102" : 0.8,
+    "p_s_ppc_LV0103" : 0.8,
+    "p_s_ppc_LV0201" : 0.8,
+    "p_s_ppc_LV0202" : 0.8,
+    "p_s_ppc_LV0203" : 0.8,
+    "q_s_ppc_LV0101" : 0.15,
+    "q_s_ppc_LV0102" : 0.15,
+    "q_s_ppc_LV0103" : 0.15,
+    "q_s_ppc_LV0201" : 0.15,
+    "q_s_ppc_LV0202" : 0.15,
+    "q_s_ppc_LV0203" : 0.15,
     "q_s_ref_BESS" : 0
 }
 
