@@ -25,9 +25,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="true"
-     inkscape:zoom="1.5555352"
-     inkscape:cx="255.86049"
-     inkscape:cy="92.894073"
+     inkscape:zoom="3.1110704"
+     inkscape:cx="250.0747"
+     inkscape:cy="151.87699"
      inkscape:window-width="1280"
      inkscape:window-height="730"
      inkscape:window-x="-6"
@@ -504,7 +504,7 @@
          id="tspan1-7-0-1"
          style="font-size:1.41111px;stroke-width:0.264583"
          x="52.186996"
-         y="48.092155">172.16.0.4</tspan></text>
+         y="48.092155">172.20.0.4</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:1.41111px;line-height:1.25;font-family:'Times New Roman';-inkscape-font-specification:'Times New Roman, ';stroke-width:0.264583"

@@ -57,7 +57,14 @@ class Emulator():
         self.model.Dt = 0.025
         self.model.ini(initialization,'xy_0.json')
         self.kirrad = self.model.get_value('irrad_LV0101') / self.model.get_value('p_s_LV0101')
-        self.model.p[self.v_lvrt_idxs] =0.0
+        self.model.p[self.v_lvrt_idxs] = 0.0
+        self.N_store = 5000
+        self.N_z = self.model.z.shape[0]
+        print(f'N_z = {self.N_z}')
+        self.Z_store = np.zeros((self.N_store,self.N_z))
+        self.T_store = np.zeros((self.N_store,))
+        np.savez('outputs',outs=self.model.outputs_list)
+        
  
     def start(self):
         self.step_loop_thread = Thread(target = self.step_loop)
@@ -271,7 +278,13 @@ class Emulator():
             dimensions['m'] = self.M_gen
             dimensions['n'] = self.N_gen
             return Response(content=json.dumps(dimensions), media_type='application/json')
-      
+
+        @app.post("/save_store")
+        async def save_store(received: dict):
+            print('Store saving')
+            np.savez(received['file_name'],Time=self.T_store,Z=self.Z_store,i_store=self.i_store,N_store=self.N_store)
+            return Response(content='Exito', media_type= 'text/plain')
+             
         print('run uvicorn')
         uvicorn.run(app,host="0.0.0.0", port = 8000, log_level='critical')
         print('uvicorn ran')
@@ -319,16 +332,24 @@ class Emulator():
     def step_loop(self):
         t = 0.0
         self.model.step(t+self.Dt_mid,{})
-
+        self.i_store = 0
         t_0 = time.perf_counter_ns()
         t2 = t_0 ## time for ramps
         count = 0
         self.model.t = 0
 
         while True:
+
+            if self.i_store < self.N_store-1:
+                self.i_store += 1
+            else:
+                self.i_store = 0
+
             t = time.perf_counter_ns()-t_0
             prev = time.perf_counter_ns()
             self.model.step(t/1e9+self.Dt_mid,{})
+            self.Z_store[self.i_store,:] = self.model.z
+            self.T_store[self.i_store] = t
 
             V_LV = self.model.xy[np.array(self.V_y_idxs)+self.model.N_x]
             asyncio.run(self.calculate_states(V_LV))
