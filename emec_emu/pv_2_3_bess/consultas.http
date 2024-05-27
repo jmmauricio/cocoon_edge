@@ -7,7 +7,7 @@ POST http://127.0.0.1:8000/save_store
 Content-Type: application/json
 
 {
-    "file_name" : "hola"
+    "file_name" : "hola_4"
 }
 
 
@@ -38,12 +38,12 @@ Content-Type: application/json
 {}
 
 ### POST setpoints. Con esta petición cambiamos la potencia activa o reactiva de referencia. 
-POST http://172.20.0.3:8010/setpoints
+POST http://172.20.0.4:8010/setpoints
 Content-Type: application/json
 
 {
-"P_POI_ref":3,
-"Q_POI_ref":0.2
+"P_POI_ref":0,
+"Q_POI_ref":5
 }
 
 
