@@ -28,6 +28,10 @@ h1 tc qdisc change dev h1-eth0 root netem delay 50ms
 s0102 tc qdisc change dev s0102-eth2 root netem delay 100ms
 s0103 tc qdisc change dev s0103-eth2 root netem delay 150ms
 
+sudo wg-quick up jmmauricio-lab
+
+sudo mnexec -a 18106 bash
+
 '''
 
 
@@ -81,10 +85,8 @@ def interSecureModelNetwork():
     dpid += 1 
     sEEMU = net.addSwitch('sEEMU', cls=switchType, dpid=f'{dpid}',failMode='standalone')  # switch for the electrical emulator
     Intf(  'enp0s8', node=sEEMU )  # EDIT the interface name here! 
-    #Intf(  'eth1', node=sEEMU )  # EDIT the interface name here! 
-
-    Intf(  'enp0s9', node=sEXT )  # EDIT the interface name here! 
-    Intf( 'enp0s10', node=sPOI )  # EDIT the interface name here! 
+    # Intf(  'enp0s9', node=sEXT )  # EDIT the interface name here! 
+    # Intf( 'enp0s10', node=sPOI )  # EDIT the interface name here! 
 
     info( '*** Starting hosts \n')
     POI   = net.addHost(  'POI', cls=Host, ip='10.10.0.3/16', defaultRoute='10.10.0.1',mac='00:00:00:00:00:03')  # POI 
@@ -146,15 +148,15 @@ def interSecureModelNetwork():
             net.get(f's{name}').start([])
 
     net.get('sEEMU').start([])
-    net.get('sEXT').start([])
+    # net.get('sEXT').start([])
 
     info( '\n')
 
     info( '*** Preparing custom sgsim scripts \n')
     #CLI.do_webserver = webserver    
     net.get(  'POI').cmd('ifconfig POI-eth1 10.0.0.3 netmask 255.255.0.0')
-    net.get(  'PPC').cmd('ifconfig PPC-eth1 172.20.0.4 netmask 255.255.0.0')
-    net.get('Probe').cmd('ifconfig Probe-eth1 10.10.0.5 netmask 255.255.0.0')
+    # net.get(  'PPC').cmd('ifconfig PPC-eth1 10.20.0.4 netmask 255.240.0.0')
+    # net.get('Probe').cmd('ifconfig Probe-eth1 10.10.0.5 netmask 255.255.0.0')
 
 
     for i_m in range(1,M+1):

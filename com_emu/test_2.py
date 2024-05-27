@@ -81,8 +81,6 @@ def interSecureModelNetwork():
     dpid += 1 
     sEEMU = net.addSwitch('sEEMU', cls=switchType, dpid=f'{dpid}',failMode='standalone')  # switch for the electrical emulator
     Intf(  'enp0s8', node=sEEMU )  # EDIT the interface name here! 
-    #Intf(  'eth1', node=sEEMU )  # EDIT the interface name here! 
-
     Intf(  'enp0s9', node=sEXT )  # EDIT the interface name here! 
     Intf( 'enp0s10', node=sPOI )  # EDIT the interface name here! 
 
@@ -152,8 +150,8 @@ def interSecureModelNetwork():
 
     info( '*** Preparing custom sgsim scripts \n')
     #CLI.do_webserver = webserver    
-    net.get(  'POI').cmd('ifconfig POI-eth1 10.0.0.3 netmask 255.255.0.0')
-    net.get(  'PPC').cmd('ifconfig PPC-eth1 172.20.0.4 netmask 255.255.0.0')
+    net.get(  'POI').cmd('ifconfig POI-eth1 172.16.0.3 netmask 255.240.0.0')
+    net.get(  'PPC').cmd('ifconfig PPC-eth1 172.20.0.4 netmask 255.240.0.0')
     net.get('Probe').cmd('ifconfig Probe-eth1 10.10.0.5 netmask 255.255.0.0')
 
 
@@ -164,7 +162,7 @@ def interSecureModelNetwork():
             name = m_str + n_str 
             net.get(f's{name}').start([])
 
-            net.get(f'LV{name}').cmd(f'ifconfig LV{name}-eth1 10.0.{m_str}.{n_str} netmask 255.255.0.0')
+            net.get(f'LV{name}').cmd(f'ifconfig LV{name}-eth1 172.16.{m_str}.{n_str} netmask 255.0.0.0')
 
     hosts_dict = {}
     for item in ['POI']:
