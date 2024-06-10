@@ -48,3 +48,9 @@ sudo ip link set br1 up
 ## gRPC
 
 python3 -m pip install grpcio-tools --break-system-packages
+
+
+## Windows
+
+netsh interface ipv4 set address name="Ethernet 6" static 192.168.0.14 255.255.255.0 192.168.0.1
+

@@ -1,25 +1,30 @@
 {
   "api": {
       "scheme": "http",
-      "host": "172.16.0.2",
+      "host": "localhost",
       "port": 8000
   },
+  "linker": {
+    "scheme": "modbus",
+    "host": "10.0.0.2",
+    "port": 503
+},
   "devices": [
-    {"id":"poi",  "api_id":   "POI", "modbus_ip":"10.0.0.3","modbus_port":502,"api_config":"poi"},
-    {"id":"inv1", "api_id":"LV0101", "modbus_ip":"10.0.1.1","modbus_port":502,"api_config":"inv"},
-    {"id":"inv2", "api_id":"LV0102", "modbus_ip":"10.0.1.2","modbus_port":502,"api_config":"inv"}], 
-                "api_configs":{
-                  "poi":{"from_api":[{"api_prefix":"V","min":0.0,"max":2.0, "modbus_variable":"VoltageAVG"}],
-                        "to_api":[
-                        ]},
-                  "inv":{"to_api":[
-                                   {"api_prefix":"p_s_ppc","ini":2.0,"min": 0.0,"max":1.0, "modbus_variable":"SetActivePower"},
-                                   {"api_prefix":"q_s_ppc","ini":0.0,"min":-1.0,"max":1.0, "modbus_variable":"SetReactivePower"}
-                            ],
-                        "from_api":[
-                                   {"api_prefix":"p_s","ini":2.0,"min": 0.0,"max":1.0, "modbus_variable":"ActivePower"},
-                                   {"api_prefix":"q_s","ini":0.0,"min":-1.0,"max":1.0, "modbus_variable":"ReactivePower"}
-                        ]}
-            }           
+    {"ing_id": "poi", "ing_type":     "poi", "emec_id":   "POI", "modbus_ip":"10.0.0.3","modbus_port":502,"config":"poi", "linker_reg_0":   0},
+    {"ing_id":"inv1", "ing_type":"inverter", "emec_id":"LV0101", "modbus_ip":"10.0.1.1","modbus_port":502,"config":"inv", "linker_reg_0":1024},
+    {"ing_id":"inv2", "ing_type":"inverter", "emec_id":"LV0102", "modbus_ip":"10.0.1.2","modbus_port":502,"config":"inv", "linker_reg_0":1152}], 
+  "configs":{
+    "poi":{"to_device":[{"emec_prefix":"V","min":0.0,"max":2.0, "ing_name":"VoltageAVG", "linker_reg":0}],
+          "from_device":[
+          ]},
+    "inv":{"from_device":[
+                      {"emec_prefix":"p_s_ppc","ini":2.0,"min": 0.0,"max":1.0, "ing_name":  "SetActivePower", "linker_reg":0},
+                      {"emec_prefix":"q_s_ppc","ini":0.0,"min":-1.0,"max":1.0, "ing_name":"SetReactivePower", "linker_reg":4}
+              ],
+          "to_device":[
+                      {"emec_prefix":"p_s","ini":2.0,"min": 0.0,"max":1.0, "ing_name":  "ActivePower", "linker_reg": 8},
+                      {"emec_prefix":"q_s","ini":0.0,"min":-1.0,"max":1.0, "ing_name":"ReactivePower", "linker_reg":12}
+          ]}
+          }           
 }
           

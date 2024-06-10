@@ -22,7 +22,7 @@ def modbus_server(modbus_server_ip,modbus_server_port):
 
 if __name__ == "__main__":
 
-    modbus_server_ip = '192.168.1.100'
+    modbus_server_ip = '10.0.0.2'
     modbus_server_port = 510
 
     modbus_server(modbus_server_ip,modbus_server_port)
