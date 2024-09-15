@@ -9,7 +9,7 @@
     "port": 5100
 },
   "devices": [
-    {"ing_id": "poi", "ing_type":     "poi", "emec_id":   "POI", "modbus_ip":"127.0.0.3","modbus_port":50002,"config":"poi", "linker_reg_0":   0},
+    {"ing_id": "poi", "ing_type":     "poi", "emec_id":   "POI", "modbus_ip":"127.10.0.3","modbus_port":50003,"config":"poi", "linker_reg_0":   0},
     {"ing_id":"inv1", "ing_type":"inverter", "emec_id":"LV0101", "modbus_ip":"127.10.1.1","modbus_port":50101,"config":"inv", "linker_reg_0":1000},
     {"ing_id":"inv2", "ing_type":"inverter", "emec_id":"LV0102", "modbus_ip":"127.10.1.2","modbus_port":50102,"config":"inv", "linker_reg_0":2000}], 
   "configs":{

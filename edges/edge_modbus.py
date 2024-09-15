@@ -40,7 +40,7 @@ import copy
 import numpy as np
 from modbus import modbus_client
 
-logging.basicConfig(format='%(asctime)s %(message)s',level=logging.INFO)
+logging.basicConfig(format='%(asctime)s %(message)s',level=logging.DEBUG)
 
 
 class Edge:
@@ -147,7 +147,7 @@ class Edge:
                 modbus_value = self.modbus_device_client.read(setpoint['address'], setpoint['type'],format=setpoint['format'])
                 emec_value = modbus_value*setpoint['emec_scale']
                 emec_setpoints_dict.update({setpoint['emec_name']:emec_value})
-                print(f"modbus_value@{setpoint['address']} = {modbus_value}  -> {setpoint['emec_name']} = {emec_value}  ")
+                logging.debug(f"modbus_value@{setpoint['address']} = {modbus_value}  -> {setpoint['emec_name']} = {emec_value}  ")
 
             # write setpoints in the emec emulator server
             setpoints_json = json.dumps(emec_setpoints_dict)  # Convert dictionary to JSON format
@@ -169,7 +169,7 @@ class Edge:
                 modbus_value = int(emec_value/meas['emec_scale'])
                 self.modbus_device_client.write(modbus_value, meas['address'], meas['type'],format=meas['format'])
                 
-                print(f"{meas['emec_name']} = {emec_value} -> modbus_value@{meas['address']} = {modbus_value}")
+                logging.debug(f"{meas['emec_name']} = {emec_value} -> modbus_value@{meas['address']} = {modbus_value}")
 
 
             # Emulator control #####################################################################################
@@ -200,7 +200,7 @@ class Edge:
 
                 modbus_value = self.modbus_device_client.read(setpoint['address'], setpoint['type'],format=setpoint['format'])
                 self.modbus_linker_client.write(modbus_value, setpoint['linker_register'], setpoint['type'],format=setpoint['format']) 
-                logging.info(f"device: {setpoint['emec_name']}@{self.modbus_ip}:{self.modbus_port}/{setpoint['address']} = {modbus_value} -> linker: {setpoint['emec_name']}@{self.modbus_linker_ip}:{self.modbus_linker_port}/{setpoint['linker_register']}")
+                logging.debug(f"device: {setpoint['emec_name']}@{self.modbus_ip}:{self.modbus_port}/{setpoint['address']} = {modbus_value} -> linker: {setpoint['emec_name']}@{self.modbus_linker_ip}:{self.modbus_linker_port}/{setpoint['linker_register']}")
 
             # Measurements #####################################################################################
 
@@ -209,9 +209,6 @@ class Edge:
 
                 linker_value = self.modbus_linker_client.read(meas['linker_register'], meas['type'],format=meas['format'])
                 self.modbus_device_client.write(linker_value, meas['linker_register'], meas['type'],format=meas['format'])
-
-                #print(f"{meas['emec_name']} = {emec_value} -> modbus_value@{meas['address']} = {modbus_value}")
-
 
             # Emulator control #####################################################################################
             response = self.modbus_linker_client.modbus_client.read_coils(0,1) 
@@ -246,7 +243,7 @@ class Edge:
                     modbus_value = self.modbus_linker_client.read(setpoint['linker_register'], setpoint['type'],format=setpoint['format'])
                     emec_value = modbus_value*setpoint['emec_scale']
                     emec_setpoints_dict.update({setpoint['emec_name']:emec_value})
-                    print(f"modbus_value@{setpoint['linker_register']} = {modbus_value}  -> {setpoint['emec_name']} = {emec_value}  ")
+                    logging.debug(f"modbus_value@{setpoint['linker_register']} = {modbus_value}  -> {setpoint['emec_name']} = {emec_value}  ")
 
                 # write setpoints in the emec emulator server
                 setpoints_json = json.dumps(emec_setpoints_dict)  # Convert dictionary to JSON format
@@ -268,8 +265,7 @@ class Edge:
                     emec_value = measurements_dict[meas['emec_name']]
                     modbus_value = int(emec_value/meas['emec_scale'])
                     self.modbus_linker_client.write(modbus_value, meas['linker_register'], meas['type'],format=meas['format'])
-                    
-                    print(f"{meas['emec_name']} = {emec_value} -> modbus_value@{meas['linker_register']} = {modbus_value}")
+                    logging.debug(f"{meas['emec_name']} = {emec_value} -> modbus_value@{meas['linker_register']} = {modbus_value}")
 
 
             # Emulator control #####################################################################################
