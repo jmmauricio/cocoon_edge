@@ -1,9 +1,14 @@
 
 ## Running localy
 
-* Start emuplator.py at Host computer
+* Start emulator.py at Host computer
+* Test it in host requesting http://127.0.0.1:8000/measures
+* To test it in guest:
+    * Get ip of the virtualbox computer at windows
+    * curl http://<ip>:8000/measures i.e.: curl http://172.17.0.2:8000/measures
 
-In the VM Guest:
+
+In the VM Guest VirtualBox/DEBMN:
 
 * cd to the cocoon_edge folder and run
 * sudo python3 ./com_emu/pv_m_n_bess_mn.py
@@ -54,3 +59,8 @@ python3 -m pip install grpcio-tools --break-system-packages
 
 netsh interface ipv4 set address name="Ethernet 6" static 192.168.0.14 255.255.255.0 192.168.0.1
 
+
+
+androidAP
+
+wjim1516

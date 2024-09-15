@@ -5,25 +5,24 @@
       "port": 8000
   },
   "linker": {
-    "scheme": "modbus",
-    "host": "10.0.0.2",
-    "port": 503
+    "ip": "127.100.0.1",
+    "port": 5100
 },
   "devices": [
-    {"ing_id": "poi", "ing_type":     "poi", "emec_id":   "POI", "modbus_ip":"10.0.0.3","modbus_port":502,"config":"poi", "linker_reg_0":   0},
-    {"ing_id":"inv1", "ing_type":"inverter", "emec_id":"LV0101", "modbus_ip":"10.0.1.1","modbus_port":502,"config":"inv", "linker_reg_0":1024},
-    {"ing_id":"inv2", "ing_type":"inverter", "emec_id":"LV0102", "modbus_ip":"10.0.1.2","modbus_port":502,"config":"inv", "linker_reg_0":1152}], 
+    {"ing_id": "poi", "ing_type":     "poi", "emec_id":   "POI", "modbus_ip":"127.0.0.3","modbus_port":50002,"config":"poi", "linker_reg_0":   0},
+    {"ing_id":"inv1", "ing_type":"inverter", "emec_id":"LV0101", "modbus_ip":"127.10.1.1","modbus_port":50101,"config":"inv", "linker_reg_0":1000},
+    {"ing_id":"inv2", "ing_type":"inverter", "emec_id":"LV0102", "modbus_ip":"127.10.1.2","modbus_port":50102,"config":"inv", "linker_reg_0":2000}], 
   "configs":{
-    "poi":{"to_device":[{"emec_prefix":"V","min":0.0,"max":2.0, "ing_name":"VoltageAVG", "linker_reg":0}],
-          "from_device":[
+    "poi":{"measurements":[{"emec_prefix":"V","min":0.0,"max":2.0, "ing_name":"VoltageAVG", "linker_reg":0, "emec_scale":0.001}],
+           "setpoints":[
           ]},
-    "inv":{"from_device":[
-                      {"emec_prefix":"p_s_ppc","ini":2.0,"min": 0.0,"max":1.0, "ing_name":  "SetActivePower", "linker_reg":0},
-                      {"emec_prefix":"q_s_ppc","ini":0.0,"min":-1.0,"max":1.0, "ing_name":"SetReactivePower", "linker_reg":4}
+    "inv":{"setpoints":[
+                      {"emec_prefix":"p_s_ppc","ini":2.0,"min": 0.0,"max":1.0, "ing_name":  "SetActivePower", "linker_reg":0, "emec_scale":1e-6},
+                      {"emec_prefix":"q_s_ppc","ini":0.0,"min":-1.0,"max":1.0, "ing_name":"SetReactivePower", "linker_reg":4, "emec_scale":1e-6}
               ],
-          "to_device":[
-                      {"emec_prefix":"p_s","ini":2.0,"min": 0.0,"max":1.0, "ing_name":  "ActivePower", "linker_reg": 8},
-                      {"emec_prefix":"q_s","ini":0.0,"min":-1.0,"max":1.0, "ing_name":"ReactivePower", "linker_reg":12}
+          "measurements":[
+                      {"emec_prefix":"p_s","ini":2.0,"min": 0.0,"max":1.0, "ing_name":  "ActivePower", "linker_reg": 8, "emec_scale":1e-6},
+                      {"emec_prefix":"q_s","ini":0.0,"min":-1.0,"max":1.0, "ing_name":"ReactivePower", "linker_reg":12, "emec_scale":1e-6}
           ]}
           }           
 }

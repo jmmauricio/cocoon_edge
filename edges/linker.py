@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 '''
+
+
 h0101 python3 linker.py LV0101 -cfg_dev config_devices.json
 '''
 import argparse
@@ -64,20 +66,34 @@ class Linker:
                 linker_reg_0 = device['linker_reg_0']
                 linker_reg = item['linker_reg']
                 item.update({'linkner_modbus_reg':linker_reg_0+linker_reg})
+                K_emec2modbus = 1.0 
+                if item['ing_name'] in  ['ActivePower','ReactivePower']:
+                    if device['ing_type'] == 'inverter':
+                        for inv in  self.config_controller['inverters']:
+                            if device['ing_id'] == inv['id']:
+                                K_emec2modbus = inv['sbase']   
+
+                if item['ing_name'] in  ['VoltageAVG']:
+                    if device['ing_type'] == 'poi':
+                        for adapter in  self.config_controller["configuration"]["collector"]["config"]["adapters"]:
+                            if adapter['id'] == 'poi':
+                                K_emec2modbus = adapter["config"]["VoltageAVG"]['scale']                   
 
 
-                
+    
 
-        #     # self.linker_config.update(item)
+
+                item.update({'K_emec2modbus':K_emec2modbus})  
+
+                modbus_reg = device['linker_reg_0'] + item['linker_reg']
+
+                item.update({'modbus_reg':modbus_reg})
+
+            # self.linker_config.update(item)
         #     # api_configs = config_devices['api_configs']
         #     # api_config = api_configs[item['api_config']]
         #     # self.linker_config.update({'api_config':api_config})
         #     #print('api_config', api_config)
-
-
-
-
-
         #     adapter_config = adapter['config']
 
         #     device.update({'to_device':[]})
@@ -223,9 +239,9 @@ class Linker:
                     emec_name = to_device['emec_name']
                     emec_value = from_emec_measurements_dict[emec_name]
                     modbus_value = int(emec_value*to_device['K_emec2modbus'])
-                    self.modbus_client.write(modbus_value,to_device['modbus_reg'], to_device['type'],format=to_device['format'])
+                    #self.modbus_client.write(modbus_value,to_device['modbus_reg'], to_device['type'],format=to_device['format'])
 
-                    print(emec_name, modbus_value,to_device['modbus_reg'], to_device['type'], to_device['format'])
+                    print(emec_name,emec_value, modbus_value,to_device['modbus_reg'], to_device['type'], to_device['format'], to_device['K_emec2modbus'])
 
                 time.sleep(0.5)
 
@@ -327,10 +343,12 @@ if __name__ == "__main__":
     cfg_dev = "../emec_emu/pv_1_2_bess/config_devices.json"
     cfg_ctrl = "../emec_emu/pv_1_2_bess/config_controller.json"
 
-    #linker_run(cfg_dev, cfg_ctrl)
+    linker_run(cfg_dev, cfg_ctrl)
 
-    e = Linker(cfg_dev, cfg_ctrl)
-    print(e.devices)
+    # e = Linker(cfg_dev, cfg_ctrl)
+    # e.setup()
+    # e.update()
+    #print(e.devices)
 
     # for device in e.config_devices['devices']:
 

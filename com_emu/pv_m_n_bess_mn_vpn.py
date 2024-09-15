@@ -89,9 +89,9 @@ def interSecureModelNetwork():
     # Intf( 'enp0s10', node=sPOI )  # EDIT the interface name here! 
 
     info( '*** Starting hosts \n')
-    POI   = net.addHost(  'POI', cls=Host, ip='10.10.0.3/16', defaultRoute='10.10.0.1',mac='00:00:00:00:00:03')  # POI 
-    PPC   = net.addHost(  'PPC', cls=Host, ip='10.10.0.4/16', defaultRoute='10.10.0.1',mac='00:00:00:00:00:04')  # PPC
-    Probe = net.addHost('Probe', cls=Host, ip='10.10.0.5/16', defaultRoute='10.10.0.1',mac='00:00:00:00:00:05')  # Probe    
+    POI   = net.addHost(  'POI', cls=Host, ip='10.10.0.3/8', defaultRoute='10.10.0.1',mac='00:00:00:00:00:03')  # POI 
+    PPC   = net.addHost(  'PPC', cls=Host, ip='10.10.0.4/8', defaultRoute='10.10.0.1',mac='00:00:00:00:00:04')  # PPC
+    Probe = net.addHost('Probe', cls=Host, ip='10.10.0.5/8', defaultRoute='10.10.0.1',mac='00:00:00:00:00:05')  # Probe    
 
     for i_m in range(1,M+1):
         for i_n in range(1,N+1):

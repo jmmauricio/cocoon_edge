@@ -286,7 +286,9 @@ class Emulator():
             return Response(content='Exito', media_type= 'text/plain')
              
         print('run uvicorn')
-        uvicorn.run(app,host="0.0.0.0", port = 8000, log_level='critical')
+        self.api_port = 8000
+        print(f'Listening at port {self.api_port}')
+        uvicorn.run(app,host="0.0.0.0", port = self.api_port , log_level='critical')
         print('uvicorn ran')
 
 

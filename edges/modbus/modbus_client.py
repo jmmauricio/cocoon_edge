@@ -4,6 +4,7 @@ from pymodbus.payload import BinaryPayloadDecoder
 from pymodbus.payload import BinaryPayloadBuilder
 import time
 
+
 try: 
     dummy = Endian.Little
 except:
@@ -122,21 +123,77 @@ class Modbus_client:
 
 if __name__ == "__main__":
 
-    ip = "10.0.0.2"
-    port = 503
+    ip = "127.100.0.1"
+    port = 5100
+
+    ip = "127.10.1.1"
+    port = 50101
 
     mb = Modbus_client(ip,port=port)
     mb.start()
 
+    # active powers
+    value = int(0.5e6)
+    reg_number = 40424
+    mb.write(value, reg_number, 'uint32',format = 'CDAB')
 
-    reg_number = 1160
-    value = mb.read(reg_number, 'int32', format = 'CDAB')
-    print(value)
+    # reactive powers
+    value = int(1.0e6)
+    reg_number = 40426
+    mb.write(value, reg_number, 'int32',format = 'CDAB')
 
-    # # active powers
-    # value = int(2.0e6)
-    # reg_number = 40424
+    mb.close()
+
+    ip = "127.10.1.2"
+    port = 50102
+
+    mb = Modbus_client(ip,port=port)
+    mb.start()
+
+    # active powers
+    value = int(0.5e6)
+    reg_number = 40424
+    mb.write(value, reg_number, 'uint32',format = 'CDAB')
+
+    # reactive powers
+    value = int(1.0e6)
+    reg_number = 40426
+    mb.write(value, reg_number, 'int32',format = 'CDAB')
+
+    mb.close()
+
+    # value = int(0.0e6)
+    # reg_number = 1000
     # mb.write(value, reg_number, 'uint32',format = 'CDAB')
+
+    # value = int(0.0e6)
+    # reg_number = 3000
+    # mb.write(value, reg_number, 'uint32',format = 'CDAB')
+
+    # value = int(1.0e6)
+    # reg_number = 1004
+    # mb.write(value, reg_number, 'int32',format = 'CDAB')
+
+    # value = int(1.0e6)
+    # reg_number = 3004
+    # mb.write(value, reg_number, 'int32',format = 'CDAB')
+
+
+
+    # reg_number = 1000
+    # value = mb.read(reg_number, 'int32', format = 'CDAB')
+    # print(value)
+
+
+    # reg_number = 1160
+    # value = mb.read(reg_number, 'int32', format = 'CDAB')
+    # print(value)
+
+    # response = mb.modbus_client.write_coil(0,True)
+    # response = mb.modbus_client.read_coils(0,1)
+    # print(response.bits[0])
+
+
 
     # for port in [510,511,512,513]:
     #     mb = Modbus_client(ip,port=port)

@@ -42,6 +42,9 @@ class Edge:
                 api_configs = config_devices['api_configs']
                 api_config = api_configs[item['api_config']]
                 self.edge_config.update({'api_config':api_config})
+                self.modbus_ip = item['modbus_ip']
+                self.modbus_port = item['modbus_port']
+
                 #print('api_config', api_config)
 
         # get adapter_ID in config_controller.json
